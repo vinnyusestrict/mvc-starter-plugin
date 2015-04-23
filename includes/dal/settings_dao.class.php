@@ -1,4 +1,4 @@
-<?php defined( 'ABSPATH' ) or die( "No direct access allowed" );
+<?php defined('ABSPATH') or die("No direct access allowed");
 /**
  * Datalayer to plugin settings
  * @author vinnyalves
@@ -25,12 +25,12 @@ class PluginClass_DAL_Settings_Dao extends PluginClass {
 	{
 		if ( ! isset( $this->cache[$this->settings_name] ) )
 		{
-			$this->load_lib( 'model/settings' );
+			$this->load_lib('model/settings');
 			
 			$db_params = get_option( $this->settings_name, array() );
 			
 			// Check that WP didn't return false for settings not found
-			if ( false === $db_params )
+			if (false === $db_params)
 				$db_params = array();
 			
 			$this->cache[$this->settings_name] = new PluginClass_Model_Settings( $db_params );
@@ -48,7 +48,7 @@ class PluginClass_DAL_Settings_Dao extends PluginClass {
 	 */
 	public function validate_settings( $_post )
 	{
-		$settings_model = $this->load_lib( 'model/settings' );
+		$settings_model = $this->load_lib('model/settings');
 		
 		foreach ( $_post as $key => $value )
 		{
@@ -72,4 +72,4 @@ class PluginClass_DAL_Settings_Dao extends PluginClass {
 
 
 /* End of file settings_dao.class.php */
-/* Location: <plugin-dir>/includes/dal/settings_dao.class.php */
+/* Location: plugin-name/includes/dal/settings_dao.class.php */

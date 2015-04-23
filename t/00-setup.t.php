@@ -3,7 +3,7 @@
  * @group bp
  * @group bp_setup
  */
-require_once( 'Boilerplate_Child.class.php' );
+require_once('Boilerplate_Child.class.php');
 
 class Tests_Boilerplate_Setup extends WP_UnitTestCase {
 
@@ -18,7 +18,7 @@ class Tests_Boilerplate_Setup extends WP_UnitTestCase {
 	
 	function test_plugin_loads()
 	{
-		$this->assertTrue( class_exists( 'PluginClass' ), 'The plugin was loaded' );
+		$this->assertTrue( class_exists('PluginClass'), 'The plugin was loaded' );
 	}
 	
 	
@@ -26,23 +26,23 @@ class Tests_Boilerplate_Setup extends WP_UnitTestCase {
 	{
 		$Boilerplate = PluginClass::bootstrap();
 		
-		$this->assertTrue( method_exists( $Boilerplate, 'get_env' ), 'get_env() method exists' );
-		$this->assertFalse( is_callable( array( $Boilerplate, 'get_env' ) ), 'and it\'s not public' );
+		$this->assertTrue( method_exists($Boilerplate, 'get_env'), 'get_env() method exists' );
+		$this->assertFalse( is_callable( array($Boilerplate, 'get_env')), 'and it\'s not public' );
 		
 		$env = $this->child->get_env();
 		
-		$this->assertTrue( is_object( $env ), 'We get an env object' );
+		$this->assertTrue( is_object($env), 'We get an env object' );
 		
-		foreach ( array( 'root_dir', 'inc_dir', 'tmpl_dir', 'js_url', 'css_url', 'img_url' ) as $prop )
+		foreach ( array('root_dir', 'inc_dir', 'tmpl_dir', 'js_url', 'css_url', 'img_url') as $prop )
 		{
-			$this->assertTrue( property_exists( $env, $prop ), sprintf( 'Required property %s exists', $prop ) );
-			$this->assertTrue( isset( $env->{$prop} ), sprintf( 'Required property %s is set', $prop ) );
+			$this->assertTrue( property_exists($env, $prop), sprintf('Required property %s exists', $prop));
+			$this->assertTrue( isset($env->{$prop}), sprintf('Required property %s is set', $prop) );
 			
-			$path = ( 'url' === substr( $prop, -3 ) ) ? 
-					str_replace( get_site_url() . '/', ABSPATH, $env->{$prop} ) : 
+			$path = ('url' === substr($prop, -3)) ? 
+					str_replace( get_site_url() . '/', ABSPATH, $env->{$prop}) : 
 					$env->{$prop};
 
-			$this->assertTrue( is_dir( $path ), sprintf( 'Directory for %s exists', $prop ) );
+			$this->assertTrue( is_dir($path), sprintf('Directory for %s exists', $prop));
 		}
 	}
 	
@@ -51,17 +51,17 @@ class Tests_Boilerplate_Setup extends WP_UnitTestCase {
 	{
 		$Boilerplate = PluginClass::bootstrap();
 	
-		$this->assertTrue( method_exists( $Boilerplate, 'is_admin' ), 'We have a custom is_admin' );
+		$this->assertTrue( method_exists($Boilerplate, 'is_admin'), 'We have a custom is_admin' );
 	
-		$this->assertTrue( is_callable( array( $Boilerplate, 'is_admin' ) ), 'And we can call it' );
+		$this->assertTrue( is_callable(array($Boilerplate, 'is_admin')), 'And we can call it' );
 	
-		add_filter( get_parent_class( $this->child ) . '_is_admin', '__return_true' );
+		add_filter(get_parent_class( $this->child ) . '_is_admin', '__return_true');
 
 		$this->assertTrue( $Boilerplate::is_admin(), 'Filter works and returns true' );
 	
-		remove_all_filters( get_parent_class( $this->child ) . '_is_admin' );
+		remove_all_filters(get_parent_class( $this->child ) . '_is_admin');
 	
-		add_filter( get_parent_class( $this->child ) . '_is_admin', '__return_false' );
+		add_filter(get_parent_class( $this->child ) . '_is_admin', '__return_false');
 	
 		$this->assertFalse( $Boilerplate::is_admin(), 'Filter works and returns false' );
 	}
@@ -71,15 +71,15 @@ class Tests_Boilerplate_Setup extends WP_UnitTestCase {
 	{
 		$Boilerplate = PluginClass::bootstrap();
 		
-		$this->assertTrue( method_exists( $Boilerplate, 'load_lib' ), 'load_lib() method exists' );
-		$this->assertFalse( is_callable( array( $Boilerplate, 'load_lib' ) ), 'load_lib() is not public' );
+		$this->assertTrue( method_exists($Boilerplate, 'load_lib'), 'load_lib() method exists' );
+		$this->assertFalse( is_callable( array($Boilerplate, 'load_lib') ), 'load_lib() is not public' );
 		
-		$lib = $this->child->load_lib( 'controller/settings' );
-		$this->assertTrue( is_object( $lib ), 'Test lib is loaded' );
+		$lib = $this->child->load_lib('controller/settings');
+		$this->assertTrue( is_object($lib), 'Test lib is loaded' );
 		$this->assertTrue( $lib instanceof PluginClass_Controller_Settings, 'lib is instance of the correct class' );
 		
-		$lib2 = $this->child->load_lib( 'controller/settings' );
-		$this->assertTrue( $lib === $lib2, 'Got cached lib version' );
+		$lib2 = $this->child->load_lib('controller/settings');
+		$this->assertTrue( $lib === $lib2, 'Got cached lib version');
 	}
 	
 	
@@ -91,15 +91,15 @@ class Tests_Boilerplate_Setup extends WP_UnitTestCase {
 		$env = $this->child->get_env();
 		$env->tmpl_dir = $env->root_dir . 't/data/';
 
-		$this->assertTrue( is_dir( $env->tmpl_dir ), 'Testing tmpl_dir exists' );
-		$this->assertTrue( file_exists( $env->tmpl_dir . '/template_for_test.tmpl.php' ), 'Template file exists' );
+		$this->assertTrue( is_dir($env->tmpl_dir), 'Testing tmpl_dir exists' );
+		$this->assertTrue( file_exists($env->tmpl_dir . '/template_for_test.tmpl.php'), 'Template file exists');
 		
-		$this->assertTrue( method_exists( $Boilerplate, 'render_template' ), 'render_template Method exists' );
-		$this->assertFalse( is_callable( $Boilerplate, 'render_template' ), 'render_template Is not public' );
+		$this->assertTrue( method_exists($Boilerplate, 'render_template'), 'render_template Method exists' );
+		$this->assertFalse( is_callable($Boilerplate, 'render_template'), 'render_template Is not public' );
 		
-		$stash = array( 'foo' => 'foo', 'bar' => 'bar' );
-		$this->expectOutputString( 'This is a test template having foo = foo and bar = bar' );
-		$this->child->render_template( 'template_for_test', $stash );
+		$stash = array('foo' => 'foo', 'bar' => 'bar');
+		$this->expectOutputString('This is a test template having foo = foo and bar = bar');
+		$this->child->render_template('template_for_test', $stash);
 	}
 	
 }
