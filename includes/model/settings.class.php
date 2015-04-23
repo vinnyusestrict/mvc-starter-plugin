@@ -1,4 +1,4 @@
-<?php defined( 'ABSPATH' ) or die( "No direct access allowed" );
+<?php defined('ABSPATH') or die("No direct access allowed");
 /**
  * Plugin settings model.
  * @author vinnyalves
@@ -40,7 +40,7 @@ class PluginClass_Model_Settings {
 	 */
 	public function __set( $key, $val )
 	{
-		$val = $this->_validate( $key, $val );
+		$val = $this->_validate( $key, $val);
 		
 		$this->{$key} = $val;
 	}
@@ -52,7 +52,7 @@ class PluginClass_Model_Settings {
 	 */
 	private function set_properties( $params=array() )
 	{
-		foreach ( $params as $key => $val )
+		foreach ($params as $key => $val)
 		{
 			$val = $this->_validate( $key, $val );
 			
@@ -82,10 +82,10 @@ class PluginClass_Model_Settings {
 	 */
 	private function _validate( $key, $val, $die_on_error=true )
 	{
-		if ( ! property_exists( $this, $key ) )
+		if (! property_exists( $this, $key ) )
 		{
 			return $die_on_error ? 
-				   wp_die( __( sprintf( 'Invalid property %s for Settings Model', $key ), PluginClass::$instance->domain ) ) :
+				   wp_die( __( sprintf('Invalid property %s for Settings Model', $key ), PluginClass::$instance->domain ) ) :
 				   false;
 		}
 		
@@ -96,7 +96,7 @@ class PluginClass_Model_Settings {
 				if ( 'bar' !== $val )
 				{
 					return $die_on_error ? 
-						   wp_die( __( sprintf( 'Some message about %s', $key ), PluginClass::$instance->domain ) ) : 
+						   wp_die( __( sprintf( 'Some message about %s', $key), PluginClass::$instance->domain ) ) : 
 						   false;
 				}
 				break;
@@ -109,4 +109,4 @@ class PluginClass_Model_Settings {
 }
 
 /* End of file settings_model.class.php */
-/* Location: <plugin-dir>/includes/model/settings.class.php */
+/* Location: plugin-name/includes/model/settings.class.php */
