@@ -1,7 +1,7 @@
 <?php
 /**
- * @group bp
- * @group bp_setup
+ * @group PluginClass
+ * @group PluginClass_setup
  */
 require_once( 'Boilerplate_Child.class.php' );
 

@@ -63,7 +63,27 @@ class PluginClass
 		{
 			// Load the settings
 			$this->load_lib( 'controller/settings' );
+			
+			register_activation_hook( __FILE__, array( &$this, 'do_activation') );
+			register_deactivation_hook( __FILE__, array( &$this, 'do_deactivation') );
 		}
+	}
+	
+	/**
+	 * Activation method for register_activation_hook
+	 */
+	public function do_activation()
+	{
+		return;
+	}
+	
+	
+	/**
+	 * Deactivation method for register_deactivation_hook
+	 */
+	public function do_deactivation()
+	{
+		return;
 	}
 	
 	
