@@ -6,13 +6,10 @@
 * Author: 	   
 * License:     GNU General Public License, v2 ( or newer )
 * License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-* Domain Path: /lang
-* Text Domain: PluginClass
 * 
-* 
-* Based on MVC Starter Plugin v1.2.2 by UseStrict Consulting
+* Based on MVC Starter Plugin v1.2 by UseStrict Consulting
 *
-* Copyright (C) <YEAR> <COPY_TEXT>, released under the GNU General Public License.
+* Copyright ( C ) <YEAR> <COPY_TEXT>, released under the GNU General Public License.
 */
 
 class PluginClass 

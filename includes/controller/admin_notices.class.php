@@ -144,11 +144,11 @@ class PluginClass_Controller_Admin_Notices extends PluginClass {
 	public function capture_redirect( $location )
 	{
 		if ( ! $this->has_notices() )
-			return esc_url_raw( remove_query_arg( $this->query_element, $location ) );
+			return remove_query_arg( $this->query_element, $location );
 
 		
 		$keys = join( ',', array_keys( $this->notices ) );
-		return esc_url_raw( add_query_arg( $this->query_element, $keys, $location ) );
+		return add_query_arg( $this->query_element, $keys, $location );
 	}
 	
 	

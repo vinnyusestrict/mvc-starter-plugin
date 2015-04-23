@@ -3,7 +3,7 @@
  * Needed to access parent's protected methods 
  * @author vinnyalves
  */
-require_once( ABSPATH . '/wp-content/plugins/<plugin-dir>/<plugin-dir>.php' );
+require_once( ABSPATH . '/wp-content/plugins/<plugin-dir>/<plugin-file>.php' );
 
 class Boilerplate_Child extends PluginClass {
 	

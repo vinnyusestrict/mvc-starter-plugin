@@ -1,5 +1,5 @@
 <form method="POST" action="options.php" class="">
-	<h1><?php esc_html_e( 'PLUGIN_NAME Settings', $this->domain ); ?></h1>
+	<h1><?php esc_html_e( '<PLUGIN_NAME> Settings', $this->domain ); ?></h1>
 
 
     <div>
