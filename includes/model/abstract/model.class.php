@@ -1,4 +1,4 @@
-<?php defined( 'ABSPATH' ) or die( "No direct access allowed" );
+<?php defined('ABSPATH') or die("No direct access allowed");
 /**
  * Abstract class for models
  * @author vinnyalves
@@ -39,9 +39,9 @@ abstract class PluginClass_Model_Abstract_Model extends PluginClass {
 	 */
 	public function __set( $key, $val )
 	{
-		$this->is_registered( $key );
+		$this->is_registered($key);
 		
-		$val = $this->validate( $key, $val );
+		$val = $this->validate( $key, $val);
 	
 		$this->props[$key] = $val;
 	}
@@ -56,9 +56,9 @@ abstract class PluginClass_Model_Abstract_Model extends PluginClass {
 		if ( is_object( $params ) && get_class( $params ) === get_class( $this ) )
 			$params = $params->as_array();
 		
-		foreach ( $params as $key => $val )
+		foreach ($params as $key => $val)
 		{
-			$this->is_registered( $key );
+			$this->is_registered($key);
 			
 			$val = $this->validate( $key, $val ); // Child method
 				
@@ -87,7 +87,7 @@ abstract class PluginClass_Model_Abstract_Model extends PluginClass {
 	 */
 	public function is_valid( $key, $val )
 	{
-		if ( $this->is_registered( $key, false ) )
+		if ( $this->is_registered($key, false) )
 			return $this->validate( $key, $val, false );
 		
 		return false;
@@ -112,8 +112,8 @@ abstract class PluginClass_Model_Abstract_Model extends PluginClass {
 		// Check that the property is valid
 		if ( ! array_key_exists( $key, $this->props ) )
 		{
-			if ( true === $die_on_error )
-				wp_die( __( sprintf( 'Invalid property %s for %s', $key, get_class( $this ) ), $this->domain ) );
+			if (true === $die_on_error)
+				wp_die( __( sprintf('Invalid property %s for %s', $key, get_class( $this ) ), $this->domain ) );
 			
 			return false;
 		}
