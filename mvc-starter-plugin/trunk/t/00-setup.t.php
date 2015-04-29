@@ -5,7 +5,7 @@
  */
 require_once( 'Boilerplate_Child.class.php' );
 
-class Tests_Boilerplate_Setup extends WP_UnitTestCase {
+class Tests_PluginClass_Setup extends WP_UnitTestCase {
 
 	public $child;
 	
