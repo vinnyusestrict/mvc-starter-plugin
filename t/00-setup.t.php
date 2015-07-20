@@ -13,7 +13,7 @@ class Tests_PluginClass_Setup extends WP_UnitTestCase {
 	{
 		parent::setUp();
 		
-		$this->child = new Boilerplate_Child();
+		$this->child = new PluginClass_Child();
 	}
 	
 	function test_plugin_loads()
