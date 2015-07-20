@@ -47,6 +47,10 @@ rename( $curr_dir . '/plugin-name.php', $curr_dir . '/' . $dir_name . '.php' )
     if  -f $curr_dir . '/plugin-name.php';
 
 
+# Rename the boilerplate child file
+rename( $curr_dir . '/t/Boilerplate_Child.class.php', $curr_dir . '/t/' . $params{plugin_class} . '_Child.class.php' )
+    if -f $curr_dir . '/t/Boilerplate_Child.class.php';
+
 print "Done!\n";
 
 sub help

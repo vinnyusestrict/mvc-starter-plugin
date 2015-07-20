@@ -5,17 +5,17 @@
  */
 require_once( ABSPATH . '/wp-content/plugins/<plugin-dir>/<plugin-dir>.php' );
 
-class Boilerplate_Child extends PluginClass {
+class PluginClass_Child extends PluginClass {
 	
 	public $settings_name;
 	
 	function __construct() 
 	{
-		global $USC_BoilerPlate;
+		global $PluginClass;
 		
-		$USC_BoilerPlate = new PluginClass();
+		$PluginClass = new PluginClass();
 		
-		$this->settings_name = $USC_BoilerPlate->settings_name;
+		$this->settings_name = $PluginClass->settings_name;
 	}
 	
 	public function get_env()

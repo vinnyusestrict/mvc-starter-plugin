@@ -4,7 +4,7 @@
  * @group PluginClass_uninstall
  */
 
-require_once( 'Boilerplate_Child.class.php' );
+require_once( 'PluginClass_Child.class.php' );
 
 class Tests_PluginClass_Uninstall extends WP_UnitTestCase {
 
@@ -14,7 +14,7 @@ class Tests_PluginClass_Uninstall extends WP_UnitTestCase {
 	{
 		parent::setUp();
 		
-		$this->child = new Boilerplate_Child();
+		$this->child = new PluginClass_Child();
 	}
 	
 	public function test_plugin_settings_are_deleted()
