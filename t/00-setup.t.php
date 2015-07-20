@@ -3,7 +3,7 @@
  * @group PluginClass
  * @group PluginClass_setup
  */
-require_once( 'Boilerplate_Child.class.php' );
+require_once( 'PluginClass_Child.class.php' );
 
 class Tests_PluginClass_Setup extends WP_UnitTestCase {
 
