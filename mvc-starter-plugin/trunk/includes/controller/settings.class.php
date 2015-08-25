@@ -17,9 +17,9 @@ class PluginClass_Controller_Settings extends PluginClass {
 		
 		$this->settings_dao = $this->load_lib( 'dal/settings_dao' );
 		
-		add_action( 'admin_menu', array( &$this, 'add_options_page' ) );
-		add_filter( get_parent_class( $this ) . '_settings', array( &$this->settings_dao, 'load' ), 0, 10 );
-		add_action( 'admin_init', array( &$this, 'register_options' ) );
+		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
+		add_filter( get_parent_class( $this ) . '_settings', array( $this->settings_dao, 'load' ), 0, 10 );
+		add_action( 'admin_init', array( $this, 'register_options' ) );
 	}
 	
 	
@@ -34,11 +34,11 @@ class PluginClass_Controller_Settings extends PluginClass {
 		$view = $this->load_lib( 'view/settings' );
 		
 		$plugin_page = add_options_page( $plugin_data->Name, $plugin_data->Name, 'manage_options',
-										 $this->domain, array( &$view,'show_admin' ) );
+										 $this->domain, array( $view,'show_admin' ) );
 	
 		// Add CSS and JS
-		add_action( 'admin_head-' . $plugin_page, array( &$view,'add_admin_css' ) );
-		add_action( 'admin_head-' . $plugin_page, array( &$view,'add_admin_js' ) );
+		add_action( 'admin_head-' . $plugin_page, array( $view,'add_admin_css' ) );
+		add_action( 'admin_head-' . $plugin_page, array( $view,'add_admin_js' ) );
 	}
 	
 	
@@ -47,7 +47,7 @@ class PluginClass_Controller_Settings extends PluginClass {
 	 */
 	public function register_options()
 	{
-		register_setting( $this->settings_name, $this->settings_name, array( &$this->settings_dao, 'validate_settings' ) );
+		register_setting( $this->settings_name, $this->settings_name, array( $this->settings_dao, 'validate_settings' ) );
 	}
 }
 

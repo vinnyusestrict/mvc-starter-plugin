@@ -15,10 +15,10 @@ class PluginClass_Controller_Ajax extends Plugin {
 	
 		$this->load_lib('model/ajax_request');
 	
-		add_action('wp_ajax_cb2-geo-load-countries', array( &$this, 'geo_load_countries' ) );
-		add_action('wp_ajax_cb2-geo-load-regions', array( &$this, 'geo_load_regions' ) );
-		add_action('wp_ajax_cb2-geo-load-cities', array( &$this, 'geo_load_cities' ) );
-		add_action('wp_ajax_cb2-run-simulation', array( &$this, 'run_simulation' ) );
+		add_action('wp_ajax_cb2-geo-load-countries', array( $this, 'geo_load_countries' ) );
+		add_action('wp_ajax_cb2-geo-load-regions', array( $this, 'geo_load_regions' ) );
+		add_action('wp_ajax_cb2-geo-load-cities', array( $this, 'geo_load_cities' ) );
+		add_action('wp_ajax_cb2-run-simulation', array( $this, 'run_simulation' ) );
 	}
 	
 	
