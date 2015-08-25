@@ -10,7 +10,7 @@
 * Text Domain: PluginClass
 * 
 * 
-* Based on MVC Starter Plugin v1.2.3 by UseStrict Consulting
+* Based on MVC Starter Plugin v1.2.4 by UseStrict Consulting
 *
 * Copyright (C) <YEAR> <COPY_TEXT>, released under the GNU General Public License.
 */
@@ -64,8 +64,8 @@ class PluginClass
 			// Load the settings
 			$this->load_lib( 'controller/settings' );
 			
-			register_activation_hook( __FILE__, array( &$this, 'do_activation') );
-			register_deactivation_hook( __FILE__, array( &$this, 'do_deactivation') );
+			register_activation_hook( __FILE__, array( $this, 'do_activation') );
+			register_deactivation_hook( __FILE__, array( $this, 'do_deactivation') );
 		}
 	}
 	

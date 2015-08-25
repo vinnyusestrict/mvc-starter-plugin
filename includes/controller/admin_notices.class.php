@@ -36,18 +36,18 @@ class PluginClass_Controller_Admin_Notices extends PluginClass {
 		
 		$this->query_element = get_parent_class( $this );
 		
-		add_action( 'admin_notices', array( &$this, 'show_notices' ) );
+		add_action( 'admin_notices', array( $this, 'show_notices' ) );
 		
 		// Captures redirects after posts like when saving metaboxes
-// 		add_filter( 'redirect_post_location', array( &$this, 'capture_redirect' ) );
-		add_filter( 'wp_redirect', array( &$this, 'capture_redirect' ) );
+// 		add_filter( 'redirect_post_location', array( $this, 'capture_redirect' ) );
+		add_filter( 'wp_redirect', array( $this, 'capture_redirect' ) );
 		
 		if ( isset( $_GET[$this->query_element] ) )
 		{
-			add_filter( 'post_updated_messages', array( &$this, 'show_notices' ) );
+			add_filter( 'post_updated_messages', array( $this, 'show_notices' ) );
 		}
 		
-		add_filter( $this->query_element . '_notice_pool', array( &$this, 'get_notice_pool' ) );
+		add_filter( $this->query_element . '_notice_pool', array( $this, 'get_notice_pool' ) );
 	}
 	
 
