@@ -15,10 +15,44 @@ class PluginClass_Controller_Ajax extends Plugin {
 	
 		$this->load_lib('model/ajax_request');
 	
-		add_action('wp_ajax_cb2-geo-load-countries', array( $this, 'geo_load_countries' ) );
-		add_action('wp_ajax_cb2-geo-load-regions', array( $this, 'geo_load_regions' ) );
-		add_action('wp_ajax_cb2-geo-load-cities', array( $this, 'geo_load_cities' ) );
-		add_action('wp_ajax_cb2-run-simulation', array( $this, 'run_simulation' ) );
+// 		add_action('wp_ajax_example', array( $this, 'example' ) );
+	}
+	
+	
+	/**
+	 * An example method
+	 */
+	public function example( $message='', $callback=null )
+	{
+		$params = array(
+				'message'  => &$message,
+		);
+		
+		// _init creates the model and helps with testing
+		$this->_init($params, 'POST', $callback);
+		
+		$this->ar = new CB2_Model_Ajax_Request();
+
+		try { 
+			// Do something
+			// ...
+			
+			
+			// Set the model values
+			$this->ar->is_success = true;
+			$data = (object) array( 'some data' => true );
+			$this->ar->data = $data;
+		}
+		catch (Exception $e)
+		{
+			// If there was an error, set it accordingly 
+			$this->ar->is_success = false;
+			$this->ar->msg = $e->getMessage();
+			$this->ar->data = null;
+		}
+
+		// And print out the 
+		return $this->_done();
 	}
 	
 	
