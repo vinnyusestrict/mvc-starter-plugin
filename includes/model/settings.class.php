@@ -40,9 +40,7 @@ class PluginClass_Model_Settings {
 	 */
 	public function __set( $key, $val )
 	{
-		$val = $this->_validate( $key, $val );
-		
-		$this->{$key} = $val;
+		$this->set_properties( array( $key => $val ) );
 	}
 	
 
