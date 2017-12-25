@@ -19,7 +19,7 @@ class PluginClass_DAL_Settings_Dao extends PluginClass {
 	
 	/**
 	 * Loads our data from the database and returns a settings model
-	 * @return BizxpressBI_Model_Settings
+	 * @return PluginClass_Model_Settings
 	 */
 	public function load()
 	{
