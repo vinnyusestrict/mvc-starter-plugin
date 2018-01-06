@@ -4,7 +4,7 @@
  * 
  * @author vinnyalves
  */
-class PluginClass_Controller_Ajax extends Plugin {
+class PluginClass_Controller_Ajax extends PluginClass {
 
 	private $ar;
 	
