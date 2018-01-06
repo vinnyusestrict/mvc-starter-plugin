@@ -31,8 +31,6 @@ class PluginClass_Controller_Ajax extends Plugin {
 		// _init creates the model and helps with testing
 		$this->_init($params, 'POST', $callback);
 		
-		$this->ar = new PluginClass_Model_Ajax_Request();
-
 		try { 
 			// Do something
 			// ...
