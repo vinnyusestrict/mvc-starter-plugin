@@ -10,7 +10,7 @@
 * Text Domain: PluginClass
 * 
 * 
-* Based on MVC Starter Plugin v1.2.5 by UseStrict Consulting
+* Based on MVC Starter Plugin v1.2.6 by UseStrict Consulting
 *
 * Copyright (C) <YEAR> <COPY_TEXT>, released under the GNU General Public License.
 */
@@ -263,7 +263,7 @@ class PluginClass
 	 */
 	public function log_msg( $msg )
 	{
-		error_log( __LINE__ . ' [' . date('d/m/Y H:i:s') . '] ' . print_r( $msg ,1 ) . PHP_EOL, 3, dirname( __FILE__ ) . '/log.txt');
+		error_log( '[' . date('d/m/Y H:i:s') . '] ' . print_r( $msg ,1 ) . PHP_EOL, 3, dirname( __FILE__ ) . '/log.txt');
 	}
 }
 
