@@ -166,7 +166,7 @@ class PluginClass_Controller_Admin_Notices extends PluginClass {
 		
 		if ( ! isset( self::$msg_pool[$code] ) )
 		{
-			wp_die( sprintf( __( 'Invalid message code %s', $this->domain ), $code ) );
+			wp_die( sprintf( __( 'Invalid message code %s', 'PluginClass' ), $code ) );
 		}
 		
 		return self::$msg_pool[$code];
@@ -193,8 +193,8 @@ class PluginClass_Controller_Admin_Notices extends PluginClass {
 	{
 		// Not all classes get reloaded after wp_redirect, so add those messages here.
 		return array_merge( $notices, array( 
-				'invalid-postid' => ( object ) array( 'type' => 'error', 'msg' => __( 'Invalid post_id.', $this->domain ) ),
-				'bad-params'     => ( object ) array( 'type' => 'error', 'msg' => __( 'Invalid parameter type.', $this->domain ) ),
+				'invalid-postid' => ( object ) array( 'type' => 'error', 'msg' => __( 'Invalid post_id.', 'PluginClass' ) ),
+				'bad-params'     => ( object ) array( 'type' => 'error', 'msg' => __( 'Invalid parameter type.', 'PluginClass' ) ),
 		 ) );
 	}
 	

@@ -113,7 +113,7 @@ abstract class PluginClass_Model_Abstract_Model extends PluginClass {
 		if ( ! array_key_exists( $key, $this->props ) )
 		{
 			if ( true === $die_on_error )
-				wp_die( __( sprintf( 'Invalid property %s for %s', $key, get_class( $this ) ), $this->domain ) );
+				wp_die( __( sprintf( 'Invalid property %s for %s', $key, get_class( $this ) ), 'PluginClass' ) );
 			
 			return false;
 		}

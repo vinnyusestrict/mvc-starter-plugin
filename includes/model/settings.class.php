@@ -83,7 +83,7 @@ class PluginClass_Model_Settings {
 		if ( ! property_exists( $this, $key ) )
 		{
 			return $die_on_error ? 
-				   wp_die( __( sprintf( 'Invalid property %s for Settings Model', $key ), PluginClass::$instance->domain ) ) :
+				   wp_die( __( sprintf( 'Invalid property %s for Settings Model', $key ), 'PluginClass' ) ) :
 				   false;
 		}
 		
@@ -94,7 +94,7 @@ class PluginClass_Model_Settings {
 				if ( 'bar' !== $val )
 				{
 					return $die_on_error ? 
-						   wp_die( __( sprintf( 'Some message about %s', $key ), PluginClass::$instance->domain ) ) : 
+						   wp_die( __( sprintf( 'Some message about %s', $key ), 'PluginClass' ) ) : 
 						   false;
 				}
 				break;
