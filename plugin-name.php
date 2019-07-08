@@ -10,7 +10,7 @@
 * Text Domain: PluginClass
 * 
 * 
-* Based on MVC Starter Plugin v1.2.6 by UseStrict Consulting
+* Based on MVC Starter Plugin v1.2.7 by UseStrict Consulting
 *
 * Copyright (C) <YEAR> <COPY_TEXT>, released under the GNU General Public License.
 */
@@ -54,6 +54,8 @@ class PluginClass
 	
 	public function __construct( $params=array() )
 	{
+	    add_action( 'init', array( $this, 'load_textdomain' ) );
+	    
 		$this->set_env();
 		
 		// Load abstract model class
@@ -84,6 +86,15 @@ class PluginClass
 	public function do_deactivation()
 	{
 		return;
+	}
+	
+	
+	/**
+	 * i18n
+	 */
+	public function load_textdomain()
+	{
+	    load_plugin_textdomain( 'PluginClass', false, dirname( untrailingslashit( plugin_basename( __FILE__ ) ) ) . '/lang' );
 	}
 	
 	
@@ -134,7 +145,7 @@ class PluginClass
 				'tmpl_dir' => $root . 'includes/view/templates/',
 				'js_url'   => $plugin_url . 'js/',
 				'css_url'  => $plugin_url . 'css/',
-				'img_url'  => $plugin_url . 'img/',
+// 				'img_url'  => $plugin_url . 'img/',
 				'plugin_file' => __FILE__,
 		 );
 	}

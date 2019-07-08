@@ -33,7 +33,7 @@ class Tests_PluginClass_Setup extends WP_UnitTestCase {
 		
 		$this->assertTrue( is_object( $env ), 'We get an env object' );
 		
-		foreach ( array( 'root_dir', 'inc_dir', 'tmpl_dir', 'js_url', 'css_url', 'img_url' ) as $prop )
+		foreach ( array( 'root_dir', 'inc_dir', 'tmpl_dir', 'js_url', 'css_url' /*, 'img_url' */ ) as $prop )
 		{
 			$this->assertTrue( property_exists( $env, $prop ), sprintf( 'Required property %s exists', $prop ) );
 			$this->assertTrue( isset( $env->{$prop} ), sprintf( 'Required property %s is set', $prop ) );
