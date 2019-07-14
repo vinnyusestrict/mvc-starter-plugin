@@ -10,7 +10,7 @@
 * Text Domain: PluginClass
 * 
 * 
-* Based on MVC Starter Plugin v1.2.7 by UseStrict Consulting
+* Based on MVC Starter Plugin v1.2.8 by UseStrict Consulting
 *
 * Copyright (C) <YEAR> <COPY_TEXT>, released under the GNU General Public License.
 */

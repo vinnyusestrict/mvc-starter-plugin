@@ -18,7 +18,7 @@ class PluginClass_Controller_Settings extends PluginClass {
 		$this->settings_dao = $this->load_lib( 'dal/settings_dao' );
 		
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
-		add_filter( get_parent_class( $this ) . '_settings', array( $this->settings_dao, 'load' ), 0, 10 );
+		add_filter( get_parent_class( $this ) . '_settings', array( $this->settings_dao, 'load' ), 10 );
 		add_action( 'admin_init', array( $this, 'register_options' ) );
 	}
 	
