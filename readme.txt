@@ -1,4 +1,4 @@
-=== PLUGIN_NAME ===
+=== <PLUGIN_NAME> ===
 Contributors: useStrict
 Author URI: 
 Plugin URI: 
@@ -12,7 +12,7 @@ Stable tag: 0.1
 Donate link: 
 
 == Description ==
-PLUGIN_DESC
+<PLUGIN_DESC>
 
 
 == Installation ==

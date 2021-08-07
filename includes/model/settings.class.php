@@ -6,10 +6,43 @@
 class PluginClass_Model_Settings {
 
 	/**
-	 * Declare properties as private so we can use __set() and __get() on them
+	 * Declare properties as private so we can use __set() and __get() on them.
+	 * Also used to make sure it's a valid setting.
+	 * 
+	 * Property attributes were borrowed from Perl Moose.
+	 * 
+	 * Supported values:
+	 *     isa     =>              One of the types supported by gettype. See https://www.php.net/manual/en/function.gettype.php 
+	 *     is      => rw|ro.       ReadOnly attributes cannot be changed after they have been instanciated by the DAO.
+	 *     default =>              callable or specific value
+	 *     coerce  => boolean      Whether to try to convert the value to the expected isa.
+	 *     regex   => pattern      Used with preg_match during validation.
+	 *     
 	 * @var string
 	 */
-	private $foo = 'bar';
+    private $foo = [ 'isa' => 'string', 'is' => 'rw', 'default' => function(){ return 'bar'; }, 'coerce' => true, 'regex' => '/^.*$/' ];
+	
+	
+	########################
+	
+	/**
+	 * Holds validation errors. Cannot be touched by __set();
+	 * @var array
+	 */
+	private $errors = [];
+	
+	/**
+	 * Flag to tell us if the instanciation was complete so we can handle ro properties.
+	 * @var boolean
+	 */
+	private $did_instanciation = false;
+	
+	
+	/**
+	 * Data store for our magic __get and __set methods.
+	 * @var array
+	 */
+	private $data = [];
 	
 	########################
 
@@ -17,19 +50,27 @@ class PluginClass_Model_Settings {
 	 * The constructor - it overrides any default settings with whatever is in $params 
 	 * @param array $params
 	 */
-	public function __construct( $params=array() ) 
+	public function __construct( $params=[] ) 
 	{
-		$this->set_properties( $params );
+	    $this->set_properties( $params );
+	    
+	    $this->did_instanciation = true;
 	}
 	
 	/**
-	 * Our getter. Used mainly because we have to _validate the setter
+	 * Our getter. Used mainly because we have to _do_validation the setter
 	 * and getter/setter magic methods only get called for private properties
 	 * @param string $key
 	 */
 	public function __get( $key )
 	{
-		return $this->{$key};
+	    // Handle the default value
+	    if ( ! isset( $this->data[$key] ) && isset( $this->{$key}['default'] ) )
+	    {
+	        $this->data[$key] = is_callable( $this->{$key}['default'] ) ? call_user_func( $this->{$key}['default'] ) : $this->{$key}['default'];
+	    }
+	    
+	    return $this->data[$key];
 	}
 	
 	
@@ -40,7 +81,15 @@ class PluginClass_Model_Settings {
 	 */
 	public function __set( $key, $val )
 	{
-		$this->set_properties( array( $key => $val ) );
+	    // Don't magicify $this->errors[], $this->data[] or $this->did_instanciation
+	    if ( ! in_array( $key, ['errors', 'data', 'did_instanciation'] ) )
+	    {
+	        $this->set_properties( [ $key => $val ] );
+	    }
+	    else
+	    {
+	        throw new Exception ( __( 'Cheatin&#8217; huh?') );
+	    }
 	}
 	
 
@@ -48,13 +97,16 @@ class PluginClass_Model_Settings {
 	 * Property setter
 	 * @param array $params
 	 */
-	private function set_properties( $params=array() )
+	private function set_properties( $params  )
 	{
 		foreach ( $params as $key => $val )
 		{
-			$val = $this->_validate( $key, $val );
+			list($val, $has_err) = $this->validate( $key, $val );
 			
-			$this->{$key} = $val;
+			if ( false === $has_err )
+			{
+                $this->data[$key] = $val;
+			}
 		}
 	}
 	
@@ -65,9 +117,41 @@ class PluginClass_Model_Settings {
 	 * @param mixed $val
 	 * @return Ambigous <mixed, string, boolean>
 	 */
-	public function is_valid( $key, $val )
+	public function validate( $key, $val )
 	{
-		return $this->_validate( $key, $val, false );
+		return $this->_do_validation( $key, $val );
+	}
+	
+	
+	/**
+	 * Data store for our error messages;
+	 * @param string $key
+	 * @param string $message
+	 */
+	private function add_error( $key, $message )
+	{
+	    $this->errors[$key] = $message;
+	}
+	
+	
+	/**
+	 * Accessor for validation errors
+	 * @param string $key
+	 * @return boolean|mixed
+	 */
+	public function get_error( $key )
+	{
+	    return isset( $this->errors[$key] ) ? $this->errors[$key] : false;
+	}
+	
+	
+	/**
+	 * Wether we have any validation errors
+	 * @return boolean
+	 */
+	public function has_errors()
+	{
+	    return (bool) count( $this->errors );
 	}
 	
 	
@@ -75,34 +159,90 @@ class PluginClass_Model_Settings {
 	 * Setter validation
 	 * @param string $key
 	 * @param mixed $val
-	 * @param boolean $die_on_error - whether to throw wp_die() or return false on errors
-	 * @return Ambigous <mixed, string, boolean>
+	 * @return Ambigous <mixed, string, boolean>, boolean
 	 */
-	private function _validate( $key, $val, $die_on_error=true )
+	private function _do_validation( $key, $val )
 	{
+	    $has_err = true;
+	    
+	    // Is it an actual property?
 		if ( ! property_exists( $this, $key ) )
 		{
-			return $die_on_error ? 
-				   wp_die( __( sprintf( 'Invalid property %s for Settings Model', $key ), 'PluginClass' ) ) :
-				   false;
+		                                     /* translators: 1: name of the setting field */
+		    $this->add_error( $key, sprintf( __( 'Unknown property "%1$s" for <TEXT_DOMAIN>', '<TEXT_DOMAIN>' ), $key ) );
+		    
+		    return [$val=false, $has_err];
 		}
 		
-		// Validate each key/value pair
+		// Validate against property attributes 
+		$attrs = $this->{$key};
+		
+		// Did we get property attributes?
+		if ( ! is_array( $attrs ) || empty( $attrs ) )
+		{
+		                                      /* translators: 1: name of the setting field */
+		    $this->add_error( $key, sprintf( __( 'I do not know how to validate property "%1$s"!', '<TEXT_DOMAIN>' ), $key ) );
+		    
+		    return [$val=false, $has_err];
+		}
+		
+		// is => ro
+		if ( true === $this->did_instanciation )
+		{
+		    if ( isset( $attrs['is'] ) && 'ro' === $attrs['is'] )
+		    {
+		                                          /* translators: 1: name of the setting field */
+		        $this->add_error( $key, sprintf( __( 'Readonly property "%1$s" cannot be overwritten.', '<TEXT_DOMAIN>' ), $key ) );
+		        
+		        return [$val=false, $has_err];
+		    }
+		}
+		
+		// isa/coerce
+		if ( isset( $attrs['isa'] ) && gettype( $val ) !== $attrs['isa'] )
+		{
+		    if ( isset( $attrs['coerce'] ) && true === $attrs['coerce'] )
+		    {
+		        settype( $val, $attrs['isa'] );
+		    }
+		    else 
+		    {
+                                                /* translators: 1: the name of the setting field. 2: the type received. 3: the expected type. */
+		        $this->add_error( $key, sprintf( __( 'Wrong type for property "%1$s". Got "%2$s", expecing "%3$s".', '<TEXT_DOMAIN>' ), $key, gettype( $val ), $attrs['isa'] ) );
+		        
+		        return [$val=false, $has_err];
+		    }
+		}
+		
+		// regex
+		if ( isset( $attrs['regex'] ) )
+		{
+		    if ( ! preg_match( $attrs['regex'], $val ) )
+		    {
+		                                          /* translators: 1: the name of the setting field. 2: the expected regular expression pattern. */
+		        $this->add_error( $key, sprintf( __( 'Property "%1$s" does not match regex pattern "%2$s".', '<TEXT_DOMAIN>' ), $key, $attrs['regex'] ) );
+		        
+		        return [$val=false, $has_err];
+		    }
+		}
+		
+		
+		// Custom validation for each key/value pair
 		switch( $key )
 		{
 			case 'foo':
 				if ( 'bar' !== $val )
 				{
-					return $die_on_error ? 
-						   wp_die( __( sprintf( 'Some message about %s', $key ), 'PluginClass' ) ) : 
-						   false;
+				    $this->add_error( $key, sprintf( __( 'Invalid value for key "%1$s" <TEXT_DOMAIN>', '<TEXT_DOMAIN>' ), $key ) );
+				    
+				    return [$val=false, $has_err];
 				}
 				break;
 			default:
 				break;
 		}
-		
-		return $val;
+
+		return [$val, $has_err=false];
 	}
 }
 

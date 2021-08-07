@@ -1,6 +1,6 @@
 <?php
 /**
- * PLUGIN_NAME Uninstall
+ * <PLUGIN_NAME> Uninstall
  *
  * Uninstall methods
  *

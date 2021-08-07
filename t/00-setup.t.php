@@ -24,26 +24,28 @@ class Tests_PluginClass_Setup extends WP_UnitTestCase {
 	
 	function test_environment()
 	{
-		$Boilerplate = PluginClass::bootstrap();
+	    $this->assertTrue( function_exists( 'PluginClass' ), 'Instaciation function exists' );
+	    
+// 		$Boilerplate = PluginClass::bootstrap();
 		
-		$this->assertTrue( method_exists( $Boilerplate, 'get_env' ), 'get_env() method exists' );
-		$this->assertFalse( is_callable( array( $Boilerplate, 'get_env' ) ), 'and it\'s not public' );
+// 		$this->assertTrue( method_exists( $Boilerplate, 'get_env' ), 'get_env() method exists' );
+// 		$this->assertFalse( is_callable( array( $Boilerplate, 'get_env' ) ), 'and it\'s not public' );
 		
-		$env = $this->child->get_env();
+// 		$env = $this->child->get_env();
 		
-		$this->assertTrue( is_object( $env ), 'We get an env object' );
+// 		$this->assertTrue( is_object( $env ), 'We get an env object' );
 		
-		foreach ( array( 'root_dir', 'inc_dir', 'tmpl_dir', 'js_url', 'css_url' /*, 'img_url' */ ) as $prop )
-		{
-			$this->assertTrue( property_exists( $env, $prop ), sprintf( 'Required property %s exists', $prop ) );
-			$this->assertTrue( isset( $env->{$prop} ), sprintf( 'Required property %s is set', $prop ) );
+// 		foreach ( array( 'root_dir', 'inc_dir', 'tmpl_dir', 'js_url', 'css_url' /*, 'img_url' */ ) as $prop )
+// 		{
+// 			$this->assertTrue( property_exists( $env, $prop ), sprintf( 'Required property %s exists', $prop ) );
+// 			$this->assertTrue( isset( $env->{$prop} ), sprintf( 'Required property %s is set', $prop ) );
 			
-			$path = ( 'url' === substr( $prop, -3 ) ) ? 
-					str_replace( get_site_url() . '/', ABSPATH, $env->{$prop} ) : 
-					$env->{$prop};
+// 			$path = ( 'url' === substr( $prop, -3 ) ) ? 
+// 					str_replace( get_site_url() . '/', ABSPATH, $env->{$prop} ) : 
+// 					$env->{$prop};
 
-			$this->assertTrue( is_dir( $path ), sprintf( 'Directory for %s exists', $prop ) );
-		}
+// 			$this->assertTrue( is_dir( $path ), sprintf( 'Directory for %s exists', $prop ) );
+// 		}
 	}
 	
 	

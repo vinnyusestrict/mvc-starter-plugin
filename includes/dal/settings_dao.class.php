@@ -3,19 +3,23 @@
  * Datalayer to plugin settings
  * @author vinnyalves
  */
-class PluginClass_DAL_Settings_Dao extends PluginClass {
+class PluginClass_DAL_Settings_Dao {
 	
 	/**
 	 * Associative array where we store our cached Settings Model Object
 	 * @var object
 	 */
-	private $cache = array();
+	private $cache = [];
 	
-
-	public function __construct() 
-	{
-		// NOOP - we don't want PHP to call the parent automatically
-	}
+	/**
+	 * The name of the key in wp_options table that holds our settings
+	 * @var string
+	 */
+	private $settings_name = 'PluginClass';
+	
+	/*********/
+	
+	public function __construct() {	/* Noop */ }
 	
 	/**
 	 * Loads our data from the database and returns a settings model
@@ -25,13 +29,9 @@ class PluginClass_DAL_Settings_Dao extends PluginClass {
 	{
 		if ( ! isset( $this->cache[$this->settings_name] ) )
 		{
-			$this->load_lib( 'model/settings' );
+			PluginClass()->load_lib( 'model/settings' );
 			
-			$db_params = get_option( $this->settings_name, array() );
-			
-			// Check that WP didn't return false for settings not found
-			if ( false === $db_params )
-				$db_params = array();
+			$db_params = get_option( $this->settings_name, [] );
 			
 			$this->cache[$this->settings_name] = new PluginClass_Model_Settings( $db_params );
 		}
@@ -48,26 +48,23 @@ class PluginClass_DAL_Settings_Dao extends PluginClass {
 	 */
 	public function validate_settings( $_post )
 	{
-		$settings_model = $this->load_lib( 'model/settings' );
+		$settings = PluginClass()->load_lib( 'model/settings' );
 		
 		foreach ( $_post as $key => $value )
 		{
-			if ( false === ( $_post[$key] = $settings_model->is_valid( $key, $value ) ) )
-				unset( $_post[$key] );
+			$value = $settings->validate( $key, $value );
+			
+			if ( $settings->has_errors() && false !== ( $error_msg = $settings->get_error( $key ) ) )
+			{
+			    add_settings_error( $this->settings_name, esc_attr($key), $error_msg );
+			    
+			    unset( $_post );
+			}
 		}
 		
 		return $_post;
 	}
-	
-	
-	/**
-	 * This may not be needed at all, as we're using the WP Settings API to do our saves
-	 * @param unknown $settings_model
-	 */
-// 	public function save( $settings_model )
-// 	{
-// 		# TODO: implement this once we have some settings to save
-// 	}
+
 }
 
 
