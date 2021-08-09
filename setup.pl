@@ -17,7 +17,6 @@ GetOptions(
     'long-name=s'   => \$params{plugin_long_name},
     'desc=s'        => \$params{plugin_desc},
     'class-name=s'  => \$params{plugin_class},
-    'text-domain=s' => \$params{text_domain},
 );
 
 
@@ -27,7 +26,7 @@ GetOptions(
 my %tmpl = (
     '<PLUGIN_NAME>' => $params{plugin_long_name},
     '<PLUGIN_DESC>' => $params{plugin_desc},
-    'plugin-slug'   => $params{text_domain} || $dir_name,
+    'plugin-slug'   => $dir_name,
     'PluginClass'   => $params{plugin_class}, # Can't use <PluginClass> because the IDE craps out with it.
 );
 
@@ -42,14 +41,23 @@ foreach my $key ( keys %tmpl )
 }
 
 # Rename the base plugin file
-my $curr_file = file( $curr_dir, 'plugin-name.php' )->strigify;
+my $curr_file = file( $curr_dir, 'plugin-slug.php' )->strigify;
 my $new_file  = file( $curr_dir, "$dir_name.php" )->stringfify;
 rename( $curr_file, $new_file ) if  -f $curr_file;
 
-# Rename the base class
-$curr_file = file( $curr_dir, 'includes', 'class-pluginclass.php' )->stringify;
-$new_file  = file( $curr_dir, 'includes', 'class-' . $params{plugin_class} . '.php')->stringify;
-rename( $curr_file, $new_file ) if -f $curr_file;
+# Rename the class files
+my $pluginclass = lc( $params{plugin_class} );
+for my $filename (`find $curr_dir -name "class-pluginclass-*.php`)
+{
+	chomp;
+	my ($prefix, $suffix) = m/^(.*?\/class-)pluginclass(-.*?)\.php/;
+	rename( $filename, $prefix . $pluginclass . $suffix );
+}
+
+
+#$curr_file = file( $curr_dir, 'includes', 'class-pluginclass.php' )->stringify;
+#$new_file  = file( $curr_dir, 'includes', 'class-' . $params{plugin_class} . '.php')->stringify;
+#rename( $curr_file, $new_file ) if -f $curr_file;
 
 # Rename the boilerplate child file
 $curr_file = file( $curr_dir, 't', 'Boilerplate_Child.class.php')->stringify;
@@ -62,12 +70,10 @@ sub help
 {
     print <<EOF;
     
-    Usage: perl $0 --long-name="The Plugin Name" --desc="Full Plugin Description" --class-name="DesiredPHPClassName" [--text-domain="text-domain"]
+    Usage: perl $0 --long-name="The Plugin Name" --desc="Full Plugin Description" --class-name="DesiredPHPClassName"
     
-    All but text-domain parameters are required. Use a valid class name or your plugin will throw an error during activation.
+    All parameters are required. Use a valid class name or your plugin will throw an error during activation.
     
-    text-domain, if not passed, will default to the directory name, which should be in "plugin-name" format.
-        
 EOF
     exit();
 }
