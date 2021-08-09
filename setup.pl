@@ -49,15 +49,12 @@ rename( $curr_file, $new_file ) if  -f $curr_file;
 my $pluginclass = lc( $params{plugin_class} );
 for my $filename (`find $curr_dir -name "class-pluginclass-*.php"`)
 {
-	chomp($filename);
-	my ($prefix, $suffix) = $filename =~ m/^(.*?\/class-)pluginclass(-.*\.php)/;
-	rename( $filename, $prefix . $pluginclass . $suffix );
+    chomp($filename);
+    my $to_file = $filename;
+    $to_file =~ s/class-pluginclass/class-$pluginclass/;
+    rename( $filename, $to_file );
 }
 
-
-#$curr_file = file( $curr_dir, 'includes', 'class-pluginclass.php' )->stringify;
-#$new_file  = file( $curr_dir, 'includes', 'class-' . $params{plugin_class} . '.php')->stringify;
-#rename( $curr_file, $new_file ) if -f $curr_file;
 
 # Rename the boilerplate child file
 $curr_file = file( $curr_dir, 't', 'Boilerplate_Child.class.php')->stringify;
