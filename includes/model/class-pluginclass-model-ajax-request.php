@@ -1,7 +1,15 @@
-<?php defined( 'ABSPATH' ) or die( 'No direct access allowed' );
+<?php
 /**
  * Ajax Request model
  *
+ * @author vinnyalves
+ */
+
+defined( 'ABSPATH' ) || die( 'No direct access allowed' );
+
+/**
+ * Model for ajax requests.
+ * 
  * @author vinnyalves
  */
 class PluginClass_Model_Ajax_Request {

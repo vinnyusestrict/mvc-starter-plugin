@@ -31,6 +31,9 @@ defined( 'ABSPATH' ) || die( 'No direct access allowed' );
  * Copyright (C) <YEAR> <COPY_TEXT>, released under the GNU General Public License.
  */
 
+define( 'PluginClass_VERSION', '0.1' );
+define( 'PluginClass_FILE', __FILE__ );
+
 require_once dirname( __FILE__ ) . '/includes/class-pluginclass.php';
 
 /**

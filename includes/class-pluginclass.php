@@ -1,6 +1,6 @@
 <?php
 /**
- * The main plugin file.
+ * The main plugin class file.
  *
  * @category Class
  * @package  PluginClass
@@ -17,8 +17,6 @@ if ( ! class_exists( 'PluginClass' ) ) :
 	 * @package     PluginClass
 	 */
 	class PluginClass {
-
-		const VERSION = '0.1';
 
 		/**
 		 * Holds library singletons
@@ -37,21 +35,11 @@ if ( ! class_exists( 'PluginClass' ) ) :
 
 
 		/**
-		 * Environments listed here will not allow external setters.
-		 *
-		 * @var array
-		 */
-		private $readonly = array(
-			'settings' => true,
-			'version'  => true,
-		);
-
-		/**
 		 * Holds the environment variables.
 		 *
 		 * @var StdClass
 		 */
-		private $environment;
+		public $environment;
 
 
 
@@ -92,8 +80,8 @@ if ( ! class_exists( 'PluginClass' ) ) :
 			/**
 			 * Variables
 			 */
-			$this->data['settings'] = $this->load_lib( 'dal/settings_dao' )->load();
-			$this->data['version']  = self::VERSION;
+			$this->data['settings'] = $this->load_lib( 'dal/settings-dao' )->load();
+			$this->data['version']  = PluginClass_VERSION;
 		}
 
 		/**
@@ -107,8 +95,8 @@ if ( ! class_exists( 'PluginClass' ) ) :
 			// Load the settings admin controller.
 			$this->load_lib( 'controller/settings' );
 
-			register_activation_hook( __FILE__, array( $this, 'do_activation' ) );
-			register_deactivation_hook( __FILE__, array( $this, 'do_deactivation' ) );
+			register_activation_hook( PluginClass_FILE, array( $this, 'do_activation' ) );
+			register_deactivation_hook( PluginClass_FILE, array( $this, 'do_deactivation' ) );
 
 			/* Add Admin Code here */
 		}
@@ -144,7 +132,7 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		 * Load i18n
 		 */
 		public function load_textdomain() {
-			load_plugin_textdomain( 'TEXT_DOMAIN', false, dirname( untrailingslashit( plugin_basename( __FILE__ ) ) ) . '/lang' );
+			load_plugin_textdomain( 'plugin-slug', false, dirname( untrailingslashit( plugin_basename( PluginClass_FILE ) ) ) . '/lang' );
 		}
 
 
@@ -157,8 +145,8 @@ if ( ! class_exists( 'PluginClass' ) ) :
 			if ( null === $env ) {
 				$this->libs = new StdClass();
 
-				$root       = trailingslashit( dirname( __FILE__ ) );
-				$plugin_url = trailingslashit( plugins_url( 'assets', __FILE__ ) );
+				$root       = trailingslashit( dirname( PluginClass_FILE ) );
+				$plugin_url = trailingslashit( plugins_url( 'assets', PluginClass_FILE ) );
 
 				$env = (object) array(
 					'root_dir'         => $root,
@@ -167,7 +155,7 @@ if ( ! class_exists( 'PluginClass' ) ) :
 					'tmpl_dir'         => $root . 'templates/',
 					'js_url'           => $plugin_url . 'js/',
 					'css_url'          => $plugin_url . 'css/',
-					'plugin_file'      => __FILE__,
+				    'plugin_file'      => PluginClass_FILE,
 				);
 			}
 
@@ -239,7 +227,7 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		 * @param bool   $debug       Whether to display debug information.
 		 * @param bool   $is_private  Whether we want the template in view/private_templates only.
 		 */
-		protected function render_template( $name, $stash = array(), $debug = false, $is_private = false ) {
+		public function render_template( $name, $stash = array(), $debug = false, $is_private = false ) {
 			if ( '.tmpl.php' !== substr( $name, -9 ) ) {
 				$name .= '.tmpl.php';
 			}
@@ -298,7 +286,7 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		 * @param string $msg
 		 */
 		public function log_msg( $msg ) {
-			error_log( '[' . date( 'd/m/Y H:i:s' ) . '] ' . print_r( $msg, 1 ) . PHP_EOL, 3, dirname( __FILE__ ) . '/log.txt' ); //phpcs: ignore
+		    error_log( '[' . date( 'd/m/Y H:i:s' ) . '] ' . print_r( $msg, 1 ) . PHP_EOL, 3, dirname( PluginClass_FILE ) . '/log.txt' ); //phpcs: ignore
 		}
 
 
@@ -328,64 +316,6 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		public function __wakeup() {
 			_doing_it_wrong( __CLASS__ . '::' . __FUNCTION__, __( 'Cheatin&#8217; huh?', 'TEXT_DOMAIN' ), '1.0' ); }
 
-// 		/**
-// 		 * Magic method for checking the existence of a certain custom field
-// 		 *
-// 		 * @since 1.0
-// 		 */
-// 		public function __isset( $key ) {
-// 			return isset( $this->data[ $key ] ); }
-
-// 		/**
-// 		 * Magic method for getting PluginClass variables
-// 		 *
-// 		 * @since 1.0
-// 		 */
-// 		public function __get( $key ) {
-// 			return isset( $this->data[ $key ] ) ? $this->data[ $key ] : null; }
-
-// 		/**
-// 		 * Magic method for setting PluginClass variables
-// 		 *
-// 		 * @since 1.0
-// 		 */
-// 		public function __set( $key, $value ) {
-// 			if ( isset( $this->readonly[ $key ] ) && $this->readonly[ $key ] ) {
-// 				_doing_it_wrong(
-// 					__CLASS__ . '::' . __FUNCTION__,
-// 					sprintf(
-// 					/* translators: 1: %1$s: Name of the variable */
-// 						__( 'Cannot set readonly variable "%1$s"', 'TEXT_DOMAIN' ),
-// 						$key
-// 					),
-// 					'1.0'
-// 				);
-
-// 				return;
-// 			}
-
-// 			$this->data[ $key ] = $value;
-// 		}
-
-// 		/**
-// 		 * Magic method for unsetting PluginClass variables
-// 		 *
-// 		 * @since 1.0
-// 		 */
-// 		public function __unset( $key ) {
-// 			if ( isset( $this->data[ $key ] ) ) {
-// 				unset( $this->data[ $key ] );
-// 			}
-// 		}
-
-// 		/**
-// 		 * Magic method to prevent notices and errors from invalid method calls
-// 		 *
-// 		 * @since 1.0
-// 		 */
-// 		public function __call( $name = '', $args = array() ) {
-// 			unset( $name, $args );
-// 			return null; }
 	}
 
 	// Kick off the plugin.
@@ -395,6 +325,7 @@ if ( ! class_exists( 'PluginClass' ) ) :
 	PluginClass();
 endif; // End if class_exists.
 
-/*
- End of file plugin-slug.php */
-/* Location: plugin-slug/plugin-slug.php */
+/**
+ * End of file plugin-slug.php 
+ * Location: plugin-slug/plugin-slug.php
+ */

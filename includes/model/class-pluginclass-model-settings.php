@@ -1,10 +1,11 @@
 <?php
 /**
- * Plugin settings model. 
- * 
+ * Plugin settings model.
+ *
  * All of the hard work is done by the Base model, so keep the extends.
  *
  * @author vinnyalves
+ * @package PluginClass
  */
 
 defined( 'ABSPATH' ) || die( 'No direct access allowed' );
@@ -12,8 +13,14 @@ defined( 'ABSPATH' ) || die( 'No direct access allowed' );
 /**
  * Load the Base Class which we extend.
  */
-require_once( __DIR__ . '/class-base.php');
+require_once __DIR__ . '/class-base.php';
 
+
+/**
+ * The model class. This defines the valid properties and their attributes.
+ *
+ * @author vinnyalves
+ */
 class PluginClass_Model_Settings extends PluginClass_Model_Base {
 
 	/**
@@ -33,43 +40,44 @@ class PluginClass_Model_Settings extends PluginClass_Model_Base {
 	 * @var array
 	 */
 	protected $foo = array(
-		'isa'     => 'string',
-		'is'      => 'rw',
-		'coerce'  => true,
-		'regex'   => '/^.*$/',
+		'isa'    => 'string',
+		'is'     => 'rw',
+		'coerce' => true,
+		'regex'  => '/^.*$/',
 	);
 
-	
+
 	/**
-	 * You *must* call parent::__construct( $params ) after 
+	 * You *must* call parent::__construct( $params ) after
 	 * setting any property defaults or validation callbacks.
 	 * Or do not declare a __construct() method at all and let the parent do its thing.
-	 * 
-	 * @param array $params
+	 *
+	 * @param array $params Key/values to be initialized.
 	 */
-	public function __construct( $params=array() ) {
-	    
-	    $this->foo['default']  = function(){ return 'bar'; };
-	    $this->foo['callback'] = array( $this, 'my_foo_callback' );
-	    
-	    parent::__construct( $params );
+	public function __construct( $params = array() ) {
+		$this->foo['default']  = function() {
+			return 'bar';
+		};
+		$this->foo['callback'] = array( $this, 'my_foo_callback' );
+
+		parent::__construct( $params );
 	}
-	
-	
+
+
 	/**
 	 * Sample custom validation rule.
-	 * 
-	 * @param string $key
-	 * @param mixed $val
+	 *
+	 * @param string $key Property name.
+	 * @param mixed  $val  Property value.
 	 * @return mixed|boolean
 	 */
 	protected function my_foo_callback( $key, $val ) {
-	    return array( $val, $has_err = false );
+		return array( $val, $has_err = false );
 	}
-	
+
 }
 
 /**
- * End of file class-settings.php 
+ * End of file class-settings.php
  * Location: plugin-slug/includes/model/class-settings.php
  */

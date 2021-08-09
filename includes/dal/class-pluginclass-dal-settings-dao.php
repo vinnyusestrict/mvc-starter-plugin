@@ -1,4 +1,13 @@
-<?php defined( 'ABSPATH' ) or die( 'No direct access allowed' );
+<?php
+/**
+ * FileDoc for plugin settings file.
+ *
+ * @author vinnyalves
+ * @package PluginClass
+ */
+
+defined( 'ABSPATH' ) || die( 'No direct access allowed' );
+
 /**
  * Datalayer to plugin settings
  *
@@ -20,10 +29,7 @@ class PluginClass_DAL_Settings_Dao {
 	 */
 	private $settings_name = 'PluginClass';
 
-	/*********/
-
-	public function __construct() {
-		/* Noop */ }
+	/*-----------------*/
 
 	/**
 	 * Loads our data from the database and returns a settings model
@@ -46,19 +52,19 @@ class PluginClass_DAL_Settings_Dao {
 	/**
 	 * Ensure some basic settings
 	 *
-	 * @param array $_post
+	 * @param array $_post POSTed values.
 	 * @return string
 	 */
-	public function validate_settings( $_post ) {
+	public static function validate_settings( $_post ) {
 		$settings = PluginClass()->load_lib( 'model/settings' );
 
 		foreach ( $_post as $key => $value ) {
 			$value = $settings->validate( $key, $value );
 
-			if ( $settings->has_errors() && false !== ( $error_msg = $settings->get_error( $key ) ) ) {
-				add_settings_error( $this->settings_name, esc_attr( $key ), $error_msg );
+			if ( $settings->has_errors() && false !== ( $error_msg = $settings->get_error( $key ) ) ) { //phpcs:ignore
+				add_settings_error( 'PluginClass', esc_attr( $key ), $error_msg );
 
-				unset( $_post );
+				unset( $_post[ $key ] );
 			}
 		}
 
@@ -68,6 +74,7 @@ class PluginClass_DAL_Settings_Dao {
 }
 
 
-/*
- End of file settings_dao.class.php */
-/* Location: plugin-slug/includes/dal/settings_dao.class.php */
+/**
+ * End of file settings-dao.class.php
+ * Location: plugin-slug/includes/dal/settings-dao.class.php
+ */

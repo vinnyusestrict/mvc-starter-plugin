@@ -1,114 +1,98 @@
-<?php defined( 'ABSPATH' ) or die( 'No direct access allowed' );
+<?php
 /**
  * Controls ajax requests.
  *
  * @author vinnyalves
+ * @package PluginClass
  */
-class PluginClass_Controller_Ajax extends PluginClass {
 
-	private $ar;
+defined( 'ABSPATH' ) || die( 'No direct access allowed' );
 
+/**
+ * Ajax controller class.
+ *
+ * @author vinnyalves
+ */
+class PluginClass_Controller_Ajax {
+
+	/**
+	 * Object constructor.
+	 */
 	public function __construct() {
-		if ( ! parent::is_admin() ) {
+		if ( ! PluginClass::is_admin() ) {
 			return;
 		}
 
-		$this->load_lib( 'model/ajax_request' );
-
-		// add_action('wp_ajax_example', array( $this, 'example' ) );
+		$this->add_actions();
 	}
 
 
 	/**
-	 * An example method
+	 * Add the supported actions in this method.
 	 */
-	public function example( $message = '', $callback = null ) {
-		$params = array(
-			'message' => &$message,
+	private function add_actions() {
+		add_action( 'wp_ajax_example', array( $this, 'example' ) );
+	}
+
+
+	/**
+	 * Wrapper to output the json data and die.
+	 *
+	 * @param mixed   $data          The data to be converted into JSON and outputted.
+	 * @param boolean $is_success  Whether to call json_success or json_error.
+	 * @param int     $status_code     The HTTP Status code to use. Defaults to 200.
+	 * @param mixed   $flags         The flags passed to json_encode(). See https://www.php.net/manual/en/function.json-encode.php.
+	 */
+	private function done( $data, $is_success = true, $status_code = 200, $flags = 0 ) {
+		if ( true === $is_success ) {
+			wp_send_json_success( $data, $status_code, $flags );
+		} else {
+			wp_send_json_error( $output, $status_code, $flags );
+		}
+	}
+
+
+	/**
+	 * Initialize accepted data.
+	 *
+	 * @param array  $allowed Accepted keys to get from the submission.
+	 * @param string $method  Whether to look in $_GET or $_POST. Defaults to $_POST.
+	 * @return array
+	 */
+	private function get_params( $allowed, $method = 'POST' ) {
+		$_requested = 'POST' === $method ? $_POST : $_GET; //phpcs:ignore WordPress.Security.NonceVerification
+
+		return array_intersect_key( $_requested, array_flip( $allowed ) );
+	}
+
+
+	/**
+	 * An example action handler.
+	 */
+	public function example() {
+		$allowed_keys = array(
+			'the_nonce_field',
+			'field1',
+			'field2',
 		);
 
-		// _init creates the model and helps with testing
-		$this->_init( $params, 'POST', $callback );
+		$params = $this->get_params( $allowed_keys, 'POST' );
 
-		try {
-			// Do something
-			// ...
-
-			// Set the model values
-			$this->ar->is_success = true;
-			$data                 = (object) array( 'some data' => true );
-			$this->ar->data       = $data;
-		} catch ( Exception $e ) {
-			// If there was an error, set it accordingly
-			$this->ar->is_success = false;
-			$this->ar->msg        = $e->getMessage();
-			$this->ar->data       = null;
+		// Always verify the nonce field!
+		if ( ! wp_verify_nonce( $params['the_nonce_field'], 'the_nonce_action' ) ) {
+			$this->done( __( 'Bad Nonce', 'plugin-slug' ), $is_success = false, 403 );
 		}
 
-		// And print out the
-		return $this->_done();
-	}
+		// Do something with the parameters.
+		$output = array( 'foo' => 'bar' );
 
-
-
-	/**
-	 * Wrapper to check if we're in an ajax call
-	 *
-	 * @return boolean
-	 */
-	private function _doing_ajax() {
-		return ( defined( 'DOING_AJAX' ) && DOING_AJAX );
-	}
-
-	/**
-	 * Wrapper to fetch query params
-	 *
-	 * @param array  $vars
-	 * @param string $method
-	 * @param string $callback
-	 */
-	private function _init( &$vars = array(), $method = 'POST', &$callback = null ) {
-		$this->ar = new PluginClass_Model_Ajax_Request();
-		$params   = null;
-
-		if ( 'GET' === $method && isset( $_GET ) ) {
-			$params =& $_GET;
-		} elseif ( 'POST' === $method && isset( $_POST ) ) {
-			$params =& $_POST;
-		}
-
-		if ( isset( $params ) ) {
-			foreach ( $vars as $name => $value ) {
-				if ( isset( $params[ $name ] ) ) {
-					$vars[ $name ] = $params[ $name ];
-				}
-			}
-
-			if ( isset( $params['callback'] ) ) {
-				$callback = trim( $params['callback'] );
-			}
-		}
-
-		$this->ar->callback = $callback;
-	}
-
-
-	/**
-	 * Output or return Ajax Request model
-	 */
-	private function _done() {
-		if ( $this->_doing_ajax() ) {
-			$this->ar->output();
-			die();
-		}
-
-		ob_start();
-		$this->ar->output();
-		return ob_get_clean();
+		// Call done to print output and exit.
+		$this->done( $output );
 	}
 
 }
 
-/*
- End of file ajax.class.php */
-/* Location: plugin-slug/includes/controller/ajax.class.php */
+/**
+ * End of file class-pluginclass-controller-ajax.php
+ * Location: plugin-slug/includes/controller/class-pluginclass-controller-ajax.php
+ */
