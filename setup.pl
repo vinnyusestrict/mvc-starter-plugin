@@ -49,8 +49,8 @@ rename( $curr_file, $new_file ) if  -f $curr_file;
 my $pluginclass = lc( $params{plugin_class} );
 for my $filename (`find $curr_dir -name "class-pluginclass-*.php`)
 {
-	chomp;
-	my ($prefix, $suffix) = m/^(.*?\/class-)pluginclass(-.*?)\.php/;
+	chomp($filename);
+	my ($prefix, $suffix) = $filename =~ m/^(.*?\/class-)pluginclass(-.*?)\.php/;
 	rename( $filename, $prefix . $pluginclass . $suffix );
 }
 
