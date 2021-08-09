@@ -111,4 +111,4 @@ class PluginClass_Controller_Ajax extends PluginClass {
 
 /*
  End of file ajax.class.php */
-/* Location: <plugin-slug>/includes/controller/ajax.class.php */
+/* Location: plugin-slug/includes/controller/ajax.class.php */

@@ -156,7 +156,7 @@ class PluginClass_Controller_Admin_Notices extends PluginClass {
 		}
 
 		if ( ! isset( self::$msg_pool[ $code ] ) ) {
-			wp_die( sprintf( __( 'Invalid message code %s', '<TEXT_DOMAIN>' ), $code ) );
+			wp_die( sprintf( __( 'Invalid message code %s', 'plugin-slug' ), $code ) );
 		}
 
 		return self::$msg_pool[ $code ];
@@ -186,11 +186,11 @@ class PluginClass_Controller_Admin_Notices extends PluginClass {
 			array(
 				'invalid-postid' => (object) array(
 					'type' => 'error',
-					'msg'  => __( 'Invalid post_id.', '<TEXT_DOMAIN>' ),
+					'msg'  => __( 'Invalid post_id.', 'plugin-slug' ),
 				),
 				'bad-params'     => (object) array(
 					'type' => 'error',
-					'msg'  => __( 'Invalid parameter type.', '<TEXT_DOMAIN>' ),
+					'msg'  => __( 'Invalid parameter type.', 'plugin-slug' ),
 				),
 			)
 		);
@@ -200,6 +200,6 @@ class PluginClass_Controller_Admin_Notices extends PluginClass {
 
 /**
  * End of file admin_notices.class.php
- * Location: <plugin-slug>/includes/controller/admin_notices.class.php
+ * Location: plugin-slug/includes/controller/admin_notices.class.php
  */
 

@@ -107,20 +107,20 @@ class PluginClass_Model_Ajax_Request {
 			case 'is_success':
 				if ( ! is_bool( $val ) ) {
 					return $die_on_error ?
-						   wp_die( __( sprintf( 'Ajax Request Model Property %s must be boolean', $key ), '<TEXT_DOMAIN>' ) ) :
+						   wp_die( __( sprintf( 'Ajax Request Model Property %s must be boolean', $key ), 'plugin-slug' ) ) :
 						   false;
 				}
 			case 'callback': // extremely basic check. a real JS identifier check would be too big
 				if ( false !== ( strpos( $val, '-' ) ) ) {
 					return $die_on_error ?
-						   wp_die( __( sprintf( 'Ajax Request Model Property %s must be a valid JS identifier', $key ), '<TEXT_DOMAIN>' ) ) :
+						   wp_die( __( sprintf( 'Ajax Request Model Property %s must be a valid JS identifier', $key ), 'plugin-slug' ) ) :
 						   false;
 				}
 				break;
 			case 'msg':
 				if ( ! is_string( $val ) && ! is_null( $val ) && ! is_array( $val ) ) {
 					return $die_on_error ?
-						   wp_die( __( sprintf( 'Ajax Request Model Property %s must be an array, a string or null', $key ), '<TEXT_DOMAIN>' ) ) :
+						   wp_die( __( sprintf( 'Ajax Request Model Property %s must be an array, a string or null', $key ), 'plugin-slug' ) ) :
 						   false;
 				}
 				break;
@@ -202,4 +202,4 @@ class PluginClass_Model_Ajax_Request {
 
 /*
  End of file ajax_request.class.php */
-/* Location: <plugin-slug>/includes/model/ajax_request.class.php */
+/* Location: plugin-slug/includes/model/ajax_request.class.php */

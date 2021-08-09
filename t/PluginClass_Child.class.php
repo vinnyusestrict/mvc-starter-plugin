@@ -4,7 +4,7 @@
  *
  * @author vinnyalves
  */
-require_once ABSPATH . '/wp-content/plugins/<plugin-slug>/<plugin-slug>.php';
+require_once ABSPATH . '/wp-content/plugins/plugin-slug/plugin-slug.php';
 
 class PluginClass_Child extends PluginClass {
 
@@ -34,4 +34,4 @@ class PluginClass_Child extends PluginClass {
 
 /*
  End of Boilerplate_Child.class.php */
-/* Location: <plugin-slug>/t/Boilerplate_Child.class.php */
+/* Location: plugin-slug/t/Boilerplate_Child.class.php */

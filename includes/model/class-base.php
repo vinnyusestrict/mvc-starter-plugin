@@ -155,7 +155,7 @@ abstract class PluginClass_Model_Base {
 	    // Is it an actual property?
 	    if ( ! property_exists( $this, $key ) ) {
 	                                           /* translators: 1: name of the setting field */
-	        $this->add_error( $key, sprintf( __( 'Unknown property "%1$s" for <TEXT_DOMAIN>', '<TEXT_DOMAIN>' ), $key ) );
+	        $this->add_error( $key, sprintf( __( 'Unknown property "%1$s" for plugin-slug', 'plugin-slug' ), $key ) );
 	        
 	        $val     = null;
 	        $has_err = true;
@@ -178,7 +178,7 @@ abstract class PluginClass_Model_Base {
 	    $has_err = false;
 	    
 	    if ( ! is_array( $attrs ) || empty( $attrs ) ) {
-	        $this->add_error( $key, sprintf( __( 'I do not know how to validate property "%1$s"!', '<TEXT_DOMAIN>' ), $key ) );
+	        $this->add_error( $key, sprintf( __( 'I do not know how to validate property "%1$s"!', 'plugin-slug' ), $key ) );
 	        
 	        $val     = null;
 	        $has_err = true;
@@ -205,7 +205,7 @@ abstract class PluginClass_Model_Base {
 	        
 	        if ( isset( $attrs['is'] ) && 'ro' === $attrs['is'] ) {
 	                                               /* translators: 1: name of the setting field */
-	            $this->add_error( $key, sprintf( __( 'Readonly property "%1$s" cannot be overwritten.', '<TEXT_DOMAIN>' ), $key ) );
+	            $this->add_error( $key, sprintf( __( 'Readonly property "%1$s" cannot be overwritten.', 'plugin-slug' ), $key ) );
 	            
 	            $val     = null;
 	            $has_err = true;
@@ -236,7 +236,7 @@ abstract class PluginClass_Model_Base {
 	        
 	        } else {
 	                                           /* translators: 1: the name of the setting field. 2: the type received. 3: the expected type. */
-	            $this->add_error( $key, sprintf( __( 'Wrong type for property "%1$s". Got "%2$s", expecing "%3$s".', '<TEXT_DOMAIN>' ), $key, gettype( $val ), $attrs['isa'] ) );
+	            $this->add_error( $key, sprintf( __( 'Wrong type for property "%1$s". Got "%2$s", expecing "%3$s".', 'plugin-slug' ), $key, gettype( $val ), $attrs['isa'] ) );
 	            
 	            $val     = null;
 	            $has_err = true;
@@ -263,7 +263,7 @@ abstract class PluginClass_Model_Base {
 	        
 	        if ( ! is_scalar( $val ) ) {
 	                                           /* translators: 1: the name of the setting field. 2: the expected regular expression pattern. */
-	            $this->add_error( $key, sprintf( __( 'Property "%1$s" cannot be checked against regex pattern "%2$s".', '<TEXT_DOMAIN>' ), $key, $attrs['regex'] ) );
+	            $this->add_error( $key, sprintf( __( 'Property "%1$s" cannot be checked against regex pattern "%2$s".', 'plugin-slug' ), $key, $attrs['regex'] ) );
 	            
 	            $val     = null;
 	            $has_err = true;
@@ -271,7 +271,7 @@ abstract class PluginClass_Model_Base {
 	        elseif ( ! preg_match( $attrs['regex'], $val ) ) {
 	            
 	                                           /* translators: 1: the name of the setting field. 2: the expected regular expression pattern. */
-	            $this->add_error( $key, sprintf( __( 'Property "%1$s" does not match regex pattern "%2$s".', '<TEXT_DOMAIN>' ), $key, $attrs['regex'] ) );
+	            $this->add_error( $key, sprintf( __( 'Property "%1$s" does not match regex pattern "%2$s".', 'plugin-slug' ), $key, $attrs['regex'] ) );
 	            
 	            $val     = null;
 	            $has_err = true;
@@ -346,5 +346,5 @@ abstract class PluginClass_Model_Base {
 
 /**
  * End of file class-base.php 
- * Location: <plugin-slug>/includes/model/class-base.php
+ * Location: plugin-slug/includes/model/class-base.php
  */

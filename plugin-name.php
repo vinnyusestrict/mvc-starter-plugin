@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || die( 'No direct access allowed' );
  * License URI:       http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * Update URI:
  * Domain Path:       /lang
- * Text Domain:       TEXT_DOMAIN
+ * Text Domain:       plugin-slug
  *
  * @package     PluginClass
  *
@@ -34,6 +34,6 @@ defined( 'ABSPATH' ) || die( 'No direct access allowed' );
 require_once dirname( __FILE__ ) . '/includes/class-pluginclass.php';
 
 /**
- * End of file <plugin-slug>.php
- * Location: <plugin-slug>/<plugin-slug>.php
+ * End of file plugin-slug.php
+ * Location: plugin-slug/plugin-slug.php
  */

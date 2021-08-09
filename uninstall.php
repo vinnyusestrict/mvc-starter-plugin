@@ -8,7 +8,7 @@ if ( ! defined( 'PluginClass_TEST_UNINSTALL' ) && ! defined( 'WP_UNINSTALL_PLUGI
 	exit();
 }
 
-require_once '<plugin-slug>.php';
+require_once 'plugin-slug.php';
 
 class PluginClass_Uninstall extends PluginClass {
 
@@ -23,4 +23,4 @@ new PluginClass_Uninstall();
 
 /*
  End of uninstall.php */
-/* Location: <plugin-slug>/uninstall.php */
+/* Location: plugin-slug/uninstall.php */

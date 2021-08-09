@@ -1,5 +1,13 @@
+<?php
+/**
+ * Starter file for the plugin settings screen.
+ *
+ * @package plugin-slug
+ */
+
+?>
 <form method="POST" action="options.php" class="">
-	<h1><?php esc_html_e( '<PLUGIN_NAME> Settings', '<TEXT_DOMAIN>' ); ?></h1>
+	<h1><?php esc_html_e( '<PLUGIN_NAME> Settings', 'plugin-slug' ); ?></h1>
 
 
 	<div>

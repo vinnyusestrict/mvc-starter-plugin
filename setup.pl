@@ -27,9 +27,8 @@ GetOptions(
 my %tmpl = (
     '<PLUGIN_NAME>' => $params{plugin_long_name},
     '<PLUGIN_DESC>' => $params{plugin_desc},
-    '<TEXT_DOMAIN>' => $params{text_domain} || $dir_name,
+    'plugin-slug'   => $params{text_domain} || $dir_name,
     'PluginClass'   => $params{plugin_class}, # Can't use <PluginClass> because the IDE craps out with it.
-    '<plugin-slug>'  => $dir_name,
 );
 
 
@@ -81,9 +80,9 @@ VARS
     PLUGIN_NAME
     PLUGIN_DESC
     PluginClass
-    <plugin-slug>
+    plugin-slug
     
 Files
-    plugin-name.php
+    plugin-slug.php
     
 

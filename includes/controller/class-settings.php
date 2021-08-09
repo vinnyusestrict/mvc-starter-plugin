@@ -57,4 +57,4 @@ class PluginClass_Controller_Settings extends PluginClass {
 
 /*
  End of file settings.class.php */
-/* Location: <plugin-slug>/includes/controller/settings.class.php */
+/* Location: plugin-slug/includes/controller/settings.class.php */

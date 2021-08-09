@@ -280,8 +280,8 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		 * @desc Custom is_admin method for testing
 		 */
 		public static function is_admin() {
-			if ( has_filter( __CLASS__ . '_is_admin' ) ) {
-				return apply_filters( __CLASS__ . '_is_admin', false );
+			if ( has_filter( 'PluginClass_is_admin' ) ) {
+				return apply_filters( 'PluginClass_is_admin', false );
 			} else {
 				return is_admin();
 			}
@@ -294,7 +294,7 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		 * @param string $msg
 		 */
 		public function log_msg( $msg ) {
-			error_log( '[' . date( 'd/m/Y H:i:s' ) . '] ' . print_r( $msg, 1 ) . PHP_EOL, 3, dirname( __FILE__ ) . '/log.txt' );
+			error_log( '[' . date( 'd/m/Y H:i:s' ) . '] ' . print_r( $msg, 1 ) . PHP_EOL, 3, dirname( __FILE__ ) . '/log.txt' ); //phpcs: ignore
 		}
 
 
@@ -306,8 +306,7 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		 * @see PluginClass::instance()
 		 * @see PluginClass();
 		 */
-		private function __construct() {
-			/* Do nothing here */ }
+		private function __construct() { /* Do nothing here */ }
 
 		/**
 		 * A dummy magic method to prevent PluginClass from being cloned
@@ -325,64 +324,64 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		public function __wakeup() {
 			_doing_it_wrong( __CLASS__ . '::' . __FUNCTION__, __( 'Cheatin&#8217; huh?', 'TEXT_DOMAIN' ), '1.0' ); }
 
-		/**
-		 * Magic method for checking the existence of a certain custom field
-		 *
-		 * @since 1.0
-		 */
-		public function __isset( $key ) {
-			return isset( $this->data[ $key ] ); }
+// 		/**
+// 		 * Magic method for checking the existence of a certain custom field
+// 		 *
+// 		 * @since 1.0
+// 		 */
+// 		public function __isset( $key ) {
+// 			return isset( $this->data[ $key ] ); }
 
-		/**
-		 * Magic method for getting PluginClass variables
-		 *
-		 * @since 1.0
-		 */
-		public function __get( $key ) {
-			return isset( $this->data[ $key ] ) ? $this->data[ $key ] : null; }
+// 		/**
+// 		 * Magic method for getting PluginClass variables
+// 		 *
+// 		 * @since 1.0
+// 		 */
+// 		public function __get( $key ) {
+// 			return isset( $this->data[ $key ] ) ? $this->data[ $key ] : null; }
 
-		/**
-		 * Magic method for setting PluginClass variables
-		 *
-		 * @since 1.0
-		 */
-		public function __set( $key, $value ) {
-			if ( isset( $this->readonly[ $key ] ) && $this->readonly[ $key ] ) {
-				_doing_it_wrong(
-					__CLASS__ . '::' . __FUNCTION__,
-					sprintf(
-					/* translators: 1: %1$s: Name of the variable */
-						__( 'Cannot set readonly variable "%1$s"', 'TEXT_DOMAIN' ),
-						$key
-					),
-					'1.0'
-				);
+// 		/**
+// 		 * Magic method for setting PluginClass variables
+// 		 *
+// 		 * @since 1.0
+// 		 */
+// 		public function __set( $key, $value ) {
+// 			if ( isset( $this->readonly[ $key ] ) && $this->readonly[ $key ] ) {
+// 				_doing_it_wrong(
+// 					__CLASS__ . '::' . __FUNCTION__,
+// 					sprintf(
+// 					/* translators: 1: %1$s: Name of the variable */
+// 						__( 'Cannot set readonly variable "%1$s"', 'TEXT_DOMAIN' ),
+// 						$key
+// 					),
+// 					'1.0'
+// 				);
 
-				return;
-			}
+// 				return;
+// 			}
 
-			$this->data[ $key ] = $value;
-		}
+// 			$this->data[ $key ] = $value;
+// 		}
 
-		/**
-		 * Magic method for unsetting PluginClass variables
-		 *
-		 * @since 1.0
-		 */
-		public function __unset( $key ) {
-			if ( isset( $this->data[ $key ] ) ) {
-				unset( $this->data[ $key ] );
-			}
-		}
+// 		/**
+// 		 * Magic method for unsetting PluginClass variables
+// 		 *
+// 		 * @since 1.0
+// 		 */
+// 		public function __unset( $key ) {
+// 			if ( isset( $this->data[ $key ] ) ) {
+// 				unset( $this->data[ $key ] );
+// 			}
+// 		}
 
-		/**
-		 * Magic method to prevent notices and errors from invalid method calls
-		 *
-		 * @since 1.0
-		 */
-		public function __call( $name = '', $args = array() ) {
-			unset( $name, $args );
-			return null; }
+// 		/**
+// 		 * Magic method to prevent notices and errors from invalid method calls
+// 		 *
+// 		 * @since 1.0
+// 		 */
+// 		public function __call( $name = '', $args = array() ) {
+// 			unset( $name, $args );
+// 			return null; }
 	}
 
 	// Kick off the plugin.
@@ -393,5 +392,5 @@ if ( ! class_exists( 'PluginClass' ) ) :
 endif; // End if class_exists.
 
 /*
- End of file <plugin-slug>.php */
-/* Location: <plugin-slug>/<plugin-slug>.php */
+ End of file plugin-slug.php */
+/* Location: plugin-slug/plugin-slug.php */

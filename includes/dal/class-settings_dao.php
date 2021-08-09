@@ -70,4 +70,4 @@ class PluginClass_DAL_Settings_Dao {
 
 /*
  End of file settings_dao.class.php */
-/* Location: <plugin-slug>/includes/dal/settings_dao.class.php */
+/* Location: plugin-slug/includes/dal/settings_dao.class.php */

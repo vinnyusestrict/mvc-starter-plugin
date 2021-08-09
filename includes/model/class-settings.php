@@ -71,5 +71,5 @@ class PluginClass_Model_Settings extends PluginClass_Model_Base {
 
 /**
  * End of file class-settings.php 
- * Location: <plugin-slug>/includes/model/class-settings.php
+ * Location: plugin-slug/includes/model/class-settings.php
  */
