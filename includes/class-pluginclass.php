@@ -187,8 +187,12 @@ if ( ! class_exists( 'PluginClass' ) ) :
 			if ( isset( $this->libs->{$name} ) && false === $force_reload ) {
 				return $this->libs->{$name};
 			}
+			
+			preg_match('@^(.*?)/(.*)$@', $name, $matches);
+			$type = $matches[1];
+			$file = $matches[2];
 
-			$filename = $this->environment->inc_dir . 'class-' . $name . '.php';
+			$filename = sprintf( '%sclass-%s-%s-%s.php', $this->environment->inc_dir, __CLASS_, $type, $file );
 			if ( ! file_exists( $filename ) ) {
 			    // phpcs:disable
 				$bt = debug_backtrace();

@@ -2,25 +2,37 @@
 /**
  * <PLUGIN_NAME> Uninstall
  *
- * Uninstall methods
+ * Uninstall methods.
+ *
+ * @package PluginClass
  */
+
+// phpcs:disable WordPress.Files.FileName
+
 if ( ! defined( 'PluginClass_TEST_UNINSTALL' ) && ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit();
 }
 
-require_once 'plugin-slug.php';
 
-class PluginClass_Uninstall extends PluginClass {
+/**
+ * Code run when uninstalling the plugin
+ *
+ * @author vinnyalves
+ */
+class PluginClass_Uninstall {
 
+	/**
+	 * Object constructor
+	 */
 	public function __construct() {
-		 return;
+		delete_option( 'PluginClass' );
 	}
 
 }
 
-
 new PluginClass_Uninstall();
 
-/*
- End of uninstall.php */
-/* Location: plugin-slug/uninstall.php */
+/**
+ * End of uninstall.php
+ * Location: plugin-slug/uninstall.php
+ */
