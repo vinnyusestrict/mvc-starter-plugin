@@ -41,7 +41,7 @@ foreach my $key ( keys %tmpl )
 }
 
 # Rename the base plugin file
-my $curr_file = file( $curr_dir, 'plugin-slug.php' )->strigify;
+my $curr_file = file( $curr_dir, 'plugin-slug.php' )->stringify;
 my $new_file  = file( $curr_dir, "$dir_name.php" )->stringfify;
 rename( $curr_file, $new_file ) if  -f $curr_file;
 
