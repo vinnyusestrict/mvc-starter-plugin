@@ -4,30 +4,27 @@
  * @group PluginClass_uninstall
  */
 
-require_once( 'PluginClass_Child.class.php' );
+require_once 'PluginClass_Child.class.php';
 
 class Tests_PluginClass_Uninstall extends WP_UnitTestCase {
 
 	public $child;
-	
-	public function setUp()
-	{
+
+	public function setUp() {
 		parent::setUp();
-		
+
 		$this->child = new PluginClass_Child();
 	}
-	
-	public function test_plugin_settings_are_deleted()
-	{
+
+	public function test_plugin_settings_are_deleted() {
 		// Add some tests to match your Uninstall file.
-		
+
 		$this->assertTrue( true );
-		
-		
 	}
-	
-	
+
+
 }
 
-/* End of 01-uninstall.t.php */
+/*
+ End of 01-uninstall.t.php */
 /* Location: t/01-uninstall.t.php */

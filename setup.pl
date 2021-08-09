@@ -6,9 +6,7 @@ use warnings;
 use Cwd;
 use File::Basename;
 use Getopt::Long;
-use DateTime;
-
-use Data::Dumper;
+use Path::Class;
 
 my $curr_dir = cwd();
 my $dir_name = basename($curr_dir); 
@@ -31,7 +29,7 @@ my %tmpl = (
     '<PLUGIN_DESC>' => $params{plugin_desc},
     '<TEXT_DOMAIN>' => $params{text_domain} || $dir_name,
     'PluginClass'   => $params{plugin_class}, # Can't use <PluginClass> because the IDE craps out with it.
-    '<plugin-dir>'  => $dir_name,
+    '<plugin-slug>'  => $dir_name,
 );
 
 
@@ -44,14 +42,20 @@ foreach my $key ( keys %tmpl )
     `find $curr_dir -name "*.php" -o -name "readme.txt" | xargs perl -pi -e 's/$key/$tmpl{$key}/g'`;
 }
 
-# Rename the base file
-rename( $curr_dir . '/plugin-name.php', $curr_dir . '/' . $dir_name . '.php' )
-    if  -f $curr_dir . '/plugin-name.php';
+# Rename the base plugin file
+my $curr_file = file( $curr_dir, 'plugin-name.php' )->strigify;
+my $new_file  = file( $curr_dir, "$dir_name.php" )->stringfify;
+rename( $curr_file, $new_file ) if  -f $curr_file;
 
+# Rename the base class
+$curr_file = file( $curr_dir, 'includes', 'class-pluginclass.php' )->stringify;
+$new_file  = file( $curr_dir, 'includes', 'class-' . $params{plugin_class} . '.php')->stringify;
+rename( $curr_file, $new_file ) if -f $curr_file;
 
 # Rename the boilerplate child file
-rename( $curr_dir . '/t/Boilerplate_Child.class.php', $curr_dir . '/t/' . $params{plugin_class} . '_Child.class.php' )
-    if -f $curr_dir . '/t/Boilerplate_Child.class.php';
+$curr_file = file( $curr_dir, 't', 'Boilerplate_Child.class.php')->stringify;
+$new_file  = file( $curr_dir, 't', $params{plugin_class} . '_Child.class.php')->stringify;
+rename( $curr_file, $new_file ) if -f $curr_file;
 
 print "Done! You should now delete me.\n";
 
@@ -67,7 +71,6 @@ sub help
         
 EOF
     exit();
-
 }
 
 
@@ -78,7 +81,7 @@ VARS
     PLUGIN_NAME
     PLUGIN_DESC
     PluginClass
-    <plugin-dir>
+    <plugin-slug>
     
 Files
     plugin-name.php
