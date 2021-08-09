@@ -42,7 +42,7 @@ foreach my $key ( keys %tmpl )
 
 # Rename the base plugin file
 my $curr_file = file( $curr_dir, 'plugin-slug.php' )->stringify;
-my $new_file  = file( $curr_dir, "$dir_name.php" )->stringfify;
+my $new_file  = file( $curr_dir, "$dir_name.php" )->stringify;
 rename( $curr_file, $new_file ) if  -f $curr_file;
 
 # Rename the class files
