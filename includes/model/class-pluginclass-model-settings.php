@@ -11,12 +11,6 @@
 defined( 'ABSPATH' ) || die( 'No direct access allowed' );
 
 /**
- * Load the Base Class which we extend.
- */
-require_once __DIR__ . '/class-base.php';
-
-
-/**
  * The model class. This defines the valid properties and their attributes.
  *
  * @author vinnyalves

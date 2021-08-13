@@ -43,11 +43,14 @@ class PluginClass_Model_Ajax_Request extends PluginClass_Model_Base {
 	
 	/**
 	 * Echoes the correct structure
-	 *
-	 * @param string $skip_headers
 	 */
 	public function output() {
-	    
+
+	    /**
+	     * Use __get() so that we grab the parent's data[] values instead of our own properties.
+	     * This isn't a problem when accessing the Model externally.
+	     * We could also spin up a new parent() object and call them directly, but that is more confusing.
+	     */
 	    $out = array(
 	        'success' => $this->__get('is_success'),
 	        'msg'     => $this->__get('msg'),

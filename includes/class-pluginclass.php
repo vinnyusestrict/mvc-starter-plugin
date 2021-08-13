@@ -78,6 +78,11 @@ if ( ! class_exists( 'PluginClass' ) ) :
 			$this->environment = $this->setup_environment();
 
 			/**
+			 * Includes
+			 */
+			require_once( $this->environment->inc_dir . 'model/class-pluginclass-model-base.php' );
+			
+			/**
 			 * Variables
 			 */
 			$this->data['settings'] = $this->load_lib( 'dal/settings-dao' )->load();
@@ -179,8 +184,8 @@ if ( ! class_exists( 'PluginClass' ) ) :
 			preg_match('@^(.*?)/(.*)$@', $name, $matches);
 			$type = $matches[1];
 			$file = $matches[2];
-
-			$filename = sprintf( '%sclass-%s-%s-%s.php', $this->environment->inc_dir, __CLASS_, $type, $file );
+			
+			$filename = sprintf( '%s/%s/class-%s-%s-%s.php', $this->environment->inc_dir, $type, strtolower(__CLASS__), $type, $file );
 			if ( ! file_exists( $filename ) ) {
 			    // phpcs:disable
 				$bt = debug_backtrace();
@@ -200,14 +205,13 @@ if ( ! class_exists( 'PluginClass' ) ) :
 			require_once $filename;
 
 			$classname = __CLASS__ . '_' . join( '_', explode( '/', $name ) );
-
-			// Only require abstraction classes.
-			if ( false !== strstr( $filename, 'abstract/' ) ) {
-				return;
-			}
-
+			$classname = str_replace( '-', '_', $classname );
+			
 			if ( ! isset( $this->libs->{$name} ) || true === $force_reload ) {
-				if ( method_exists( $classname, 'instance' ) && is_callable( array( $classname, 'instance' ) ) ) {
+			    
+			    $reflection = new ReflectionClass($classname);
+			    
+			    if ( ! $reflection->isAbstract() && method_exists( $classname, 'instance' ) && is_callable( array( $classname, 'instance' ) ) ) {
 					$this->libs->{$name} = call_user_func( array( $classname, 'instance' ), $params );
 				} else {
 					$this->libs->{$name} = new $classname( $params );

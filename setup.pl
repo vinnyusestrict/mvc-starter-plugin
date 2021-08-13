@@ -28,6 +28,7 @@ my %tmpl = (
     '<PLUGIN_DESC>' => $params{plugin_desc},
     'plugin-slug'   => $dir_name,
     'PluginClass'   => $params{plugin_class}, # Can't use <PluginClass> because the IDE craps out with it.
+    'pluginclass'   => lc $params{plugin_class},
 );
 
 
@@ -41,11 +42,18 @@ foreach my $key ( keys %tmpl )
 }
 
 # Rename the base plugin file
-my $curr_file = file( $curr_dir, 'plugin-slug.php' )->stringify;
-my $new_file  = file( $curr_dir, "$dir_name.php" )->stringify;
-rename( $curr_file, $new_file ) if  -f $curr_file;
+my $curr_file = file( $curr_dir, 'plugin-slug.php' );
+my $new_file  = file( $curr_dir, "$dir_name.php" );
+rename( "$curr_file", "$new_file" ) if  -f "$curr_file";
 
-# Rename the class files
+# Replace template vars in base plugin
+my $content = $new_file->slurp;
+for my $key (keys %tmpl) {
+	$content =~ s/$key/$tmpl{$key}/g;
+}
+$new_file->spew( $content );
+
+# Update the class files
 my $pluginclass = lc( $params{plugin_class} );
 for my $filename (`find $curr_dir -name "class-pluginclass-*.php"`)
 {
@@ -53,13 +61,15 @@ for my $filename (`find $curr_dir -name "class-pluginclass-*.php"`)
     my $to_file = $filename;
     $to_file =~ s/class-pluginclass/class-$pluginclass/;
     rename( $filename, $to_file );
+    
+    my $file = file($to_file);
+    my $content = $to_file->slurp;
+	for my $key (keys %tmpl) {
+	    $content =~ s/$key/$tmpl{$key}/g;
+	}
+	$to_file->spew( $content );
+
 }
-
-
-# Rename the boilerplate child file
-$curr_file = file( $curr_dir, 't', 'Boilerplate_Child.class.php')->stringify;
-$new_file  = file( $curr_dir, 't', $params{plugin_class} . '_Child.class.php')->stringify;
-rename( $curr_file, $new_file ) if -f $curr_file;
 
 print "Done! You should now delete me.\n";
 
