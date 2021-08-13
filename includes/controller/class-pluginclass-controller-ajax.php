@@ -53,7 +53,7 @@ class PluginClass_Controller_Ajax {
 
 
 	/**
-	 * Initialize accepted data.
+	 * Cherry-pick accepted data.
 	 *
 	 * @param array  $allowed Accepted keys to get from the submission.
 	 * @param string $method  Whether to look in $_GET or $_POST. Defaults to $_POST.

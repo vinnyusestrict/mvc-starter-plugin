@@ -15,17 +15,22 @@ if ( ! defined( 'PluginClass_TEST_UNINSTALL' ) && ! defined( 'WP_UNINSTALL_PLUGI
 
 
 /**
- * Code run when uninstalling the plugin
+ * Code run when uninstalling the plugin.
  *
  * @author vinnyalves
  */
 class PluginClass_Uninstall {
 
 	/**
-	 * Object constructor
+	 * Object constructor.
 	 */
 	public function __construct() {
-		delete_option( 'PluginClass' );
+		
+	    delete_option( 'PluginClass' );
+		
+		require_once( __DIR__ . '/includes/controller/class-pluginclass-controller-admin-notices.php' );
+		
+		PluginClass_Controller_Admin_Notices::uninstall();
 	}
 
 }
