@@ -26,13 +26,13 @@ defined( 'ABSPATH' ) || die( 'No direct access allowed' );
  *
  * @package     PluginClass
  *
- * Based on MVC Starter Plugin v1.3 by UseStrict Consulting
+ * Based on MVC Starter Plugin v3.0 by UseStrict Consulting
  *
  * Copyright (C) <YEAR> <COPY_TEXT>, released under the GNU General Public License.
  */
 
-define( 'PluginClass_VERSION', '0.1' );
-define( 'PluginClass_FILE', __FILE__ );
+define( 'PLUGINCLASS_VERSION', '0.1' );
+define( 'PLUGINCLASS_FILE', __FILE__ );
 
 require_once dirname( __FILE__ ) . '/includes/class-pluginclass.php';
 

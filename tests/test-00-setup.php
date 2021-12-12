@@ -1,75 +1,90 @@
 <?php
 /**
+ * PHPUnit setup tests.
+ *
+ * This file contains basic tests for the framework.
+ *
+ * @package Tests_PluginClass_Setup
+ */
+
+/**
+ * PHPUnit group names.
+ *
  * @group PluginClass
  * @group PluginClass_setup
  */
 require_once 'PluginClass_Child.class.php';
 
+
+/**
+ * Plugin's setup tests.
+ *
+ * @category Class
+ */
 class Tests_PluginClass_Setup extends WP_UnitTestCase {
 
+	/**
+	 * Stores the child test class.
+	 *
+	 * @var PluginClass_Child
+	 */
 	public $child;
 
-	function setUp() {
+	/**
+	 * Tests Setup.
+	 */
+	public function setUp() {
 		parent::setUp();
 
 		$this->child = new PluginClass_Child();
 	}
 
-	function test_plugin_loads() {
+	/**
+	 * Test plugin loading.
+	 */
+	public function test_plugin_loads() {
 		$this->assertTrue( class_exists( 'PluginClass' ), 'The plugin was loaded' );
 	}
 
 
-	function test_environment() {
-		$this->assertTrue( function_exists( 'PluginClass' ), 'Instaciation function exists' );
-
-		// $Boilerplate = PluginClass::bootstrap();
-
-		// $this->assertTrue( method_exists( $Boilerplate, 'get_env' ), 'get_env() method exists' );
-		// $this->assertFalse( is_callable( array( $Boilerplate, 'get_env' ) ), 'and it\'s not public' );
-
-		// $env = $this->child->get_env();
-
-		// $this->assertTrue( is_object( $env ), 'We get an env object' );
-
-		// foreach ( array( 'root_dir', 'inc_dir', 'tmpl_dir', 'js_url', 'css_url' /*, 'img_url' */ ) as $prop )
-		// {
-		// $this->assertTrue( property_exists( $env, $prop ), sprintf( 'Required property %s exists', $prop ) );
-		// $this->assertTrue( isset( $env->{$prop} ), sprintf( 'Required property %s is set', $prop ) );
-
-		// $path = ( 'url' === substr( $prop, -3 ) ) ?
-		// str_replace( get_site_url() . '/', ABSPATH, $env->{$prop} ) :
-		// $env->{$prop};
-
-		// $this->assertTrue( is_dir( $path ), sprintf( 'Directory for %s exists', $prop ) );
-		// }
+	/**
+	 * Tests environment.
+	 */
+	public function test_environment() {
+		$this->assertTrue( function_exists( 'PluginClass' ), 'Instanciation function exists' );
 	}
 
 
-	function test_is_admin_method() {
-		$Boilerplate = PluginClass::bootstrap();
+	/**
+	 * Tests the is_admin method.
+	 */
+	public function test_is_admin_method() {
+		$boilerplate = PluginClass::bootstrap();
 
-		$this->assertTrue( method_exists( $Boilerplate, 'is_admin' ), 'We have a custom is_admin' );
+		$this->assertTrue( method_exists( $boilerplate, 'is_admin' ), 'We have a custom is_admin' );
 
-		$this->assertTrue( is_callable( array( $Boilerplate, 'is_admin' ) ), 'And we can call it' );
+		$this->assertTrue( is_callable( array( $boilerplate, 'is_admin' ) ), 'And we can call it' );
 
 		add_filter( get_parent_class( $this->child ) . '_is_admin', '__return_true' );
 
-		$this->assertTrue( $Boilerplate::is_admin(), 'Filter works and returns true' );
+		$this->assertTrue( $boilerplate::is_admin(), 'Filter works and returns true' );
 
 		remove_all_filters( get_parent_class( $this->child ) . '_is_admin' );
 
 		add_filter( get_parent_class( $this->child ) . '_is_admin', '__return_false' );
 
-		$this->assertFalse( $Boilerplate::is_admin(), 'Filter works and returns false' );
+		$this->assertFalse( $boilerplate::is_admin(), 'Filter works and returns false' );
 	}
 
 
-	function test_load_lib() {
-		$Boilerplate = PluginClass::bootstrap();
+	/**
+	 * Tests the load_lib method.
+	 */
+	public function test_load_lib() {
+		$boilerplate = PluginClass::bootstrap();
 
-		$this->assertTrue( method_exists( $Boilerplate, 'load_lib' ), 'load_lib() method exists' );
-		$this->assertFalse( is_callable( array( $Boilerplate, 'load_lib' ) ), 'load_lib() is not public' );
+		$this->assertTrue( method_exists( $boilerplate, 'load_lib' ), 'load_lib() method exists' );
+		$this->assertFalse( is_callable( array( $boilerplate, 'load_lib' ) ), 'load_lib() is not public' );
 
 		$lib = $this->child->load_lib( 'controller/settings' );
 		$this->assertTrue( is_object( $lib ), 'Test lib is loaded' );
@@ -80,18 +95,21 @@ class Tests_PluginClass_Setup extends WP_UnitTestCase {
 	}
 
 
-	function test_render_template() {
-		$Boilerplate = PluginClass::bootstrap();
+	/**
+	 * Tests the render_template method
+	 */
+	public function test_render_template() {
+		$boilerplate = PluginClass::bootstrap();
 
-		// Change tmpl_dir for testing
+		// Change tmpl_dir for testing.
 		$env           = $this->child->get_env();
 		$env->tmpl_dir = $env->root_dir . 't/data/';
 
 		$this->assertTrue( is_dir( $env->tmpl_dir ), 'Testing tmpl_dir exists' );
 		$this->assertTrue( file_exists( $env->tmpl_dir . '/template_for_test.tmpl.php' ), 'Template file exists' );
 
-		$this->assertTrue( method_exists( $Boilerplate, 'render_template' ), 'render_template Method exists' );
-		$this->assertFalse( is_callable( $Boilerplate, 'render_template' ), 'render_template Is not public' );
+		$this->assertTrue( method_exists( $boilerplate, 'render_template' ), 'render_template Method exists' );
+		$this->assertFalse( is_callable( $boilerplate, 'render_template' ), 'render_template Is not public' );
 
 		$stash = array(
 			'foo' => 'foo',
@@ -103,6 +121,7 @@ class Tests_PluginClass_Setup extends WP_UnitTestCase {
 
 }
 
-/*
- End of 00-setup.t.php */
-/* Location: t/00-setup.t.php */
+/**
+ * End of file test-00-setup.php
+ * Location: t/test-00-setup.php
+ */

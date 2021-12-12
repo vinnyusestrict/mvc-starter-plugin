@@ -29,6 +29,7 @@ my %tmpl = (
     'plugin-slug'   => $dir_name,
     'PluginClass'   => $params{plugin_class}, # Can't use <PluginClass> because the IDE craps out with it.
     'pluginclass'   => lc $params{plugin_class},
+    'PLUGINCLASS'   => uc $params{plugin_class},
 );
 
 

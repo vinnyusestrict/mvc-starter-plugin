@@ -25,11 +25,10 @@ class PluginClass_Uninstall {
 	 * Object constructor.
 	 */
 	public function __construct() {
-		
-	    delete_option( 'PluginClass' );
-		
-		require_once( __DIR__ . '/includes/controller/class-pluginclass-controller-admin-notices.php' );
-		
+		delete_option( 'PluginClass' );
+
+		require_once __DIR__ . '/includes/controller/class-pluginclass-controller-admin-notices.php';
+
 		PluginClass_Controller_Admin_Notices::uninstall();
 	}
 

@@ -51,7 +51,27 @@ class PluginClass_Controller_Settings {
 		// Add CSS and JS.
 		add_action( 'admin_head-' . $plugin_page, array( 'PluginClass_View_Settings', 'add_admin_css' ) );
 		add_action( 'admin_head-' . $plugin_page, array( 'PluginClass_View_Settings', 'add_admin_js' ) );
+
+		add_filter( 'plugin_action_links', array( $this, 'add_plugin_link' ), 10, 2 );
 	}
+
+
+	/**
+	 * Add 'Settings' to the plugin actions.
+	 *
+	 * @param array  $plugin_actions   The list of plugin actions.
+	 * @param string $plugin_file      The plugin file.
+	 * @return array
+	 */
+	public function add_plugin_link( $plugin_actions, $plugin_file ) {
+		if ( PluginClass()->plugin_basename === $plugin_file ) {
+																	/* translators: %s is the link to the plugin settings screen */
+			$plugin_actions['PluginClass_settings'] = sprintf( __( '<a href="%s">Settings</a>', 'plugin-slug' ), esc_url( admin_url( 'options-general.php?page=PluginClass' ) ) );
+		}
+
+		return $plugin_actions;
+	}
+
 
 
 	/**

@@ -9,6 +9,12 @@
 
 defined( 'ABSPATH' ) || die( 'No direct access allowed' );
 
+
+/**
+ * This is the main plugin class.
+ *
+ * @package PluginClass
+ */
 if ( ! class_exists( 'PluginClass' ) ) :
 
 	/**
@@ -80,8 +86,8 @@ if ( ! class_exists( 'PluginClass' ) ) :
 			/**
 			 * Includes
 			 */
-			require_once( $this->environment->inc_dir . 'model/class-pluginclass-model-base.php' );
-			
+			require_once $this->environment->inc_dir . 'model/class-pluginclass-model-base.php';
+
 			/**
 			 * Variables
 			 */
@@ -160,7 +166,8 @@ if ( ! class_exists( 'PluginClass' ) ) :
 					'tmpl_dir'         => $root . 'templates/',
 					'js_url'           => $plugin_url . 'js/',
 					'css_url'          => $plugin_url . 'css/',
-				    'plugin_file'      => PluginClass_FILE,
+					'plugin_file'      => PluginClass_FILE,
+					'plugin_basename'  => plugin_basename( PluginClass_FILE ),
 				);
 			}
 
@@ -180,12 +187,12 @@ if ( ! class_exists( 'PluginClass' ) ) :
 			if ( isset( $this->libs->{$name} ) && false === $force_reload ) {
 				return $this->libs->{$name};
 			}
-			
-			preg_match('@^(.*?)/(.*)$@', $name, $matches);
+
+			preg_match( '@^(.*?)/(.*)$@', $name, $matches );
 			$type = $matches[1];
 			$file = $matches[2];
-			
-			$filename = sprintf( '%s/%s/class-%s-%s-%s.php', $this->environment->inc_dir, $type, strtolower(__CLASS__), $type, $file );
+
+			$filename = sprintf( '%s/%s/class-%s-%s-%s.php', $this->environment->inc_dir, $type, strtolower( __CLASS__ ), $type, $file );
 			if ( ! file_exists( $filename ) ) {
 			    // phpcs:disable
 				$bt = debug_backtrace();
@@ -206,12 +213,11 @@ if ( ! class_exists( 'PluginClass' ) ) :
 
 			$classname = __CLASS__ . '_' . join( '_', explode( '/', $name ) );
 			$classname = str_replace( '-', '_', $classname );
-			
+
 			if ( ! isset( $this->libs->{$name} ) || true === $force_reload ) {
-			    
-			    $reflection = new ReflectionClass($classname);
-			    
-			    if ( ! $reflection->isAbstract() && method_exists( $classname, 'instance' ) && is_callable( array( $classname, 'instance' ) ) ) {
+				$reflection = new ReflectionClass( $classname );
+
+				if ( ! $reflection->isAbstract() && method_exists( $classname, 'instance' ) && is_callable( array( $classname, 'instance' ) ) ) {
 					$this->libs->{$name} = call_user_func( array( $classname, 'instance' ), $params );
 				} else {
 					$this->libs->{$name} = new $classname( $params );
@@ -253,18 +259,18 @@ if ( ! class_exists( 'PluginClass' ) ) :
 				 * @var $name - the name of the template file or path being requested
 				 */
 				// If not, call apply_filters with the default path.
-				$path = apply_filters( 'PluginClass_template_path', $path, $name );
+				$path = apply_filters( 'pluginclass_template_path', $path, $name );
 			}
 
-			// Check for existence and croak if bad
+			// Check for existence and croak if bad.
 			if ( ! file_exists( $path ) ) {
-				wp_die( 'Bad template request: ' . $path );
+				wp_die( 'Bad template request: ' . esc_html( $path ) );
 			}
 
 			$stash = (object) $stash;
 
 			if ( true === $debug ) {
-				echo $path;
+				echo esc_html( $path );
 			}
 
 			include $path;
@@ -272,12 +278,14 @@ if ( ! class_exists( 'PluginClass' ) ) :
 
 
 		/**
+		 * Custom is_admin method to help with testing.
+		 *
 		 * @since 0.1
 		 * @desc Custom is_admin method for testing
 		 */
 		public static function is_admin() {
-			if ( has_filter( 'PluginClass_is_admin' ) ) {
-				return apply_filters( 'PluginClass_is_admin', false );
+			if ( has_filter( 'pluginclass_is_admin' ) ) {
+				return apply_filters( 'pluginclass_is_admin', false );
 			} else {
 				return is_admin();
 			}
@@ -287,10 +295,10 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		/**
 		 * Logging
 		 *
-		 * @param string $msg
+		 * @param string $msg The message to be logged.
 		 */
 		public function log_msg( $msg ) {
-		    error_log( '[' . date( 'd/m/Y H:i:s' ) . '] ' . print_r( $msg, 1 ) . PHP_EOL, 3, dirname( PluginClass_FILE ) . '/log.txt' ); //phpcs: ignore
+			error_log( '[' . gmdate( 'd/m/Y H:i:s' ) . '] ' . print_r( $msg, 1 ) . PHP_EOL, 3, dirname( PluginClass_FILE ) . '/log.txt' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
 		}
 
 
@@ -302,7 +310,8 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		 * @see PluginClass::instance()
 		 * @see PluginClass();
 		 */
-		private function __construct() { /* Do nothing here */ }
+		private function __construct() {
+			/* Do nothing here */ }
 
 		/**
 		 * A dummy magic method to prevent PluginClass from being cloned
@@ -310,7 +319,7 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		 * @since 1.0
 		 */
 		public function __clone() {
-			_doing_it_wrong( __CLASS__ . '::' . __FUNCTION__, __( 'Cheatin&#8217; huh?', 'TEXT_DOMAIN' ), '1.0' ); }
+			_doing_it_wrong( __CLASS__ . '::' . __FUNCTION__, __( 'Unsupported method.', 'plugin-slug' ), '1.0' ); } // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		/**
 		 * A dummy magic method to prevent PluginClass from being unserialized
@@ -318,18 +327,20 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		 * @since 1.0
 		 */
 		public function __wakeup() {
-			_doing_it_wrong( __CLASS__ . '::' . __FUNCTION__, __( 'Cheatin&#8217; huh?', 'TEXT_DOMAIN' ), '1.0' ); }
+			_doing_it_wrong( __CLASS__ . '::' . __FUNCTION__, __( 'Unsupported method.', 'plugin-slug' ), '1.0' ); } // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 	}
 
-	// Kick off the plugin.
-	function PluginClass() {
+	/**
+	 * Kick off the plugin and provides an easy way to get the object.
+	 */
+	function pluginclass() {
 		return PluginClass::instance();
 	}
-	PluginClass();
+	pluginclass();
 endif; // End if class_exists.
 
 /**
- * End of file plugin-slug.php 
+ * End of file plugin-slug.php
  * Location: plugin-slug/plugin-slug.php
  */

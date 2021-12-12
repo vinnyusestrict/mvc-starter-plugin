@@ -9,7 +9,7 @@
 defined( 'ABSPATH' ) || die( 'No direct access allowed' );
 
 /**
- * This is the base model class. It handles validations
+ * This is the base model class. It handles validations.
  *
  * @author vinnyalves
  */
@@ -39,14 +39,13 @@ abstract class PluginClass_Model_Base {
 
 
 	/**
-	 * The constructor - it overrides any default settings with whatever is in $params
+	 * The constructor - it overrides any default settings with whatever is in $params.
 	 *
 	 * @param array $params Array of parameters to initialize the model.
 	 */
 	public function __construct( $params = array() ) {
 		$this->set_properties( $params );
 
-// 		$this->check_required();
 		$this->did_instanciation = true;
 	}
 
@@ -343,6 +342,6 @@ abstract class PluginClass_Model_Base {
 }
 
 /**
- * End of file class-base.php
- * Location: plugin-slug/includes/model/class-base.php
+ * End of file class-pluginclass-model-base.php
+ * Location: plugin-slug/includes/model/class-pluginclass-model-base.php
  */
