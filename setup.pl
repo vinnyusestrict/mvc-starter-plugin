@@ -64,11 +64,11 @@ for my $filename (`find $curr_dir -name "class-pluginclass-*.php"`)
     rename( $filename, $to_file );
     
     my $file = file($to_file);
-    my $content = $to_file->slurp;
+    my $content = $file->slurp;
 	for my $key (keys %tmpl) {
 	    $content =~ s/$key/$tmpl{$key}/g;
 	}
-	$to_file->spew( $content );
+	$file->spew( $content );
 
 }
 
