@@ -237,7 +237,6 @@ class PluginClass_Controller_Admin_Notices {
 			array( '%s' )
 		);
 	}
-
 }
 
 /**
