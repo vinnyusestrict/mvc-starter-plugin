@@ -284,7 +284,7 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		 * @desc Custom is_admin method for testing
 		 */
 		public static function is_admin() {
-		    return apply_filters( 'pluginclass_is_admin', is_admin() );
+			return apply_filters( 'pluginclass_is_admin', is_admin() );
 		}
 
 

@@ -98,7 +98,7 @@ class Tests_PluginClass_Setup extends WP_UnitTestCase {
 		);
 
 		$this->expectOutputString( 'This is a test template having foo = foo and bar = bar' );
-		$boilerplate->render_template( 'template_for_test', $stash );
+		$boilerplate->render_template( 'template-for-test', $stash );
 
 		remove_all_filters( 'pluginclass_template_path' );
 	}

@@ -22,13 +22,6 @@
 class Tests_PluginClass_Uninstall extends WP_UnitTestCase {
 
 	/**
-	 * Tests Setup.
-	 */
-	public function setUp() {
-		parent::setUp();
-	}
-
-	/**
 	 * Test plugin uninstall
 	 */
 	public function test_plugin_settings_are_deleted() {

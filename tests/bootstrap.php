@@ -5,7 +5,8 @@
  * @package Boilerplate
  */
 
-require_once $_SERVER['HOME'] . '/.composer/vendor/yoast/phpunit-polyfills/phpunitpolyfills-autoload.php';
+$pluginclass_home = isset( $_SERVER['HOME'] ) ? filter_var( wp_unslash( $_SERVER['HOME'] ), FILTER_SANITIZE_STRING ) : __DIR__;
+require_once $pluginclass_home . '/.composer/vendor/yoast/phpunit-polyfills/phpunitpolyfills-autoload.php';
 
 if ( PHP_MAJOR_VERSION >= 8 ) {
 	echo 'The scaffolded tests cannot currently be run on PHP 8.0+. See https://github.com/wp-cli/scaffold-command/issues/285' . PHP_EOL; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
