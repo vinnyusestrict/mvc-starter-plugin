@@ -6,5 +6,4 @@
  */
 
 ?>
-
 This is a test template having foo = <?php echo esc_html( $stash->foo ); ?> and bar = <?php echo esc_html( $stash->bar ); ?>

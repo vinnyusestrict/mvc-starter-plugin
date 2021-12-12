@@ -5,7 +5,7 @@
  * @package Boilerplate
  */
 
-$pluginclass_home = isset( $_SERVER['HOME'] ) ? filter_var( wp_unslash( $_SERVER['HOME'] ), FILTER_SANITIZE_STRING ) : __DIR__;
+$pluginclass_home = isset( $_SERVER['HOME'] ) ? filter_var( stripslashes( $_SERVER['HOME'] ), FILTER_SANITIZE_STRING ) : __DIR__;
 require_once $pluginclass_home . '/.composer/vendor/yoast/phpunit-polyfills/phpunitpolyfills-autoload.php';
 
 if ( PHP_MAJOR_VERSION >= 8 ) {
