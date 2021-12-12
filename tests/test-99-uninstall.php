@@ -13,7 +13,6 @@
  * @group PluginClass
  * @group PluginClass_uninstall
  */
-require_once 'PluginClass_Child.class.php';
 
 /**
  * Plugin's uninstall tests.
@@ -23,19 +22,10 @@ require_once 'PluginClass_Child.class.php';
 class Tests_PluginClass_Uninstall extends WP_UnitTestCase {
 
 	/**
-	 * Stores the child test class.
-	 *
-	 * @var PluginClass_Child
-	 */
-	public $child;
-
-	/**
 	 * Tests Setup.
 	 */
 	public function setUp() {
 		parent::setUp();
-
-		$this->child = new PluginClass_Child();
 	}
 
 	/**

@@ -92,7 +92,7 @@ if ( ! class_exists( 'PluginClass' ) ) :
 			 * Variables
 			 */
 			$this->data['settings'] = $this->load_lib( 'dal/settings-dao' )->load();
-			$this->data['version']  = PluginClass_VERSION;
+			$this->data['version']  = PLUGINCLASS_VERSION;
 		}
 
 		/**
@@ -106,8 +106,8 @@ if ( ! class_exists( 'PluginClass' ) ) :
 			// Load the settings admin controller.
 			$this->load_lib( 'controller/settings' );
 
-			register_activation_hook( PluginClass_FILE, array( $this, 'do_activation' ) );
-			register_deactivation_hook( PluginClass_FILE, array( $this, 'do_deactivation' ) );
+			register_activation_hook( PLUGINCLASS_FILE, array( $this, 'do_activation' ) );
+			register_deactivation_hook( PLUGINCLASS_FILE, array( $this, 'do_deactivation' ) );
 
 			/* Add Admin Code here */
 		}
@@ -143,7 +143,7 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		 * Load i18n
 		 */
 		public function load_textdomain() {
-			load_plugin_textdomain( 'plugin-slug', false, dirname( untrailingslashit( plugin_basename( PluginClass_FILE ) ) ) . '/lang' );
+			load_plugin_textdomain( 'plugin-slug', false, dirname( untrailingslashit( plugin_basename( PLUGINCLASS_FILE ) ) ) . '/lang' );
 		}
 
 
@@ -156,8 +156,8 @@ if ( ! class_exists( 'PluginClass' ) ) :
 			if ( null === $env ) {
 				$this->libs = new StdClass();
 
-				$root       = trailingslashit( dirname( PluginClass_FILE ) );
-				$plugin_url = trailingslashit( plugins_url( 'assets', PluginClass_FILE ) );
+				$root       = trailingslashit( dirname( PLUGINCLASS_FILE ) );
+				$plugin_url = trailingslashit( plugins_url( 'assets', PLUGINCLASS_FILE ) );
 
 				$env = (object) array(
 					'root_dir'         => $root,
@@ -166,8 +166,8 @@ if ( ! class_exists( 'PluginClass' ) ) :
 					'tmpl_dir'         => $root . 'templates/',
 					'js_url'           => $plugin_url . 'js/',
 					'css_url'          => $plugin_url . 'css/',
-					'plugin_file'      => PluginClass_FILE,
-					'plugin_basename'  => plugin_basename( PluginClass_FILE ),
+					'plugin_file'      => PLUGINCLASS_FILE,
+					'plugin_basename'  => plugin_basename( PLUGINCLASS_FILE ),
 				);
 			}
 
@@ -246,9 +246,10 @@ if ( ! class_exists( 'PluginClass' ) ) :
 			$path  = $is_private ? $this->environment->private_tmpl_dir : $this->environment->tmpl_dir;
 			$path .= $name;
 
-			// Does the plugin dir exist in the active theme?
 			$theme_plugin_dir = trailingslashit( get_stylesheet_directory() . '/' . basename( __DIR__ ) );
 
+			// Does the plugin dir exist in the active theme?
+			// If not, call apply_filters with the default path.
 			if ( file_exists( $theme_plugin_dir . $name ) ) {
 				$path = $theme_plugin_dir . $name;
 			} else {
@@ -258,7 +259,6 @@ if ( ! class_exists( 'PluginClass' ) ) :
 				 * @var $path - the full path to the template file
 				 * @var $name - the name of the template file or path being requested
 				 */
-				// If not, call apply_filters with the default path.
 				$path = apply_filters( 'pluginclass_template_path', $path, $name );
 			}
 
@@ -284,11 +284,7 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		 * @desc Custom is_admin method for testing
 		 */
 		public static function is_admin() {
-			if ( has_filter( 'pluginclass_is_admin' ) ) {
-				return apply_filters( 'pluginclass_is_admin', false );
-			} else {
-				return is_admin();
-			}
+		    return apply_filters( 'pluginclass_is_admin', is_admin() );
 		}
 
 
@@ -298,7 +294,7 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		 * @param string $msg The message to be logged.
 		 */
 		public function log_msg( $msg ) {
-			error_log( '[' . gmdate( 'd/m/Y H:i:s' ) . '] ' . print_r( $msg, 1 ) . PHP_EOL, 3, dirname( PluginClass_FILE ) . '/log.txt' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
+			error_log( '[' . gmdate( 'd/m/Y H:i:s' ) . '] ' . print_r( $msg, 1 ) . PHP_EOL, 3, dirname( PLUGINCLASS_FILE ) . '/log.txt' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions
 		}
 
 
