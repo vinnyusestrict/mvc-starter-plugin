@@ -26,7 +26,7 @@ class PluginClass_View_Settings {
 	 * Enqueue the CSS file in the settings screen
 	 */
 	public function add_admin_css() {
-		wp_enqueue_style( 'PluginClass-settings-admin', PluginClass()->environment->css_url . 'plugin-settings.css', array(), PluginClass()->version );
+		wp_enqueue_style( 'PluginClass-settings-admin', pluginclass()->environment->css_url . 'plugin-settings.css', array(), pluginclass()->version );
 	}
 
 
@@ -34,7 +34,7 @@ class PluginClass_View_Settings {
 	 * Enqueue the JS file in the settings screen
 	 */
 	public function add_admin_js() {
-		wp_enqueue_script( 'PluginClass-settings-admin', PluginClass()->environment->js_url . 'plugin-settings.js', array( 'jquery' ), PluginClass()->version, $in_footer = false );
+		wp_enqueue_script( 'PluginClass-settings-admin', pluginclass()->environment->js_url . 'plugin-settings.js', array( 'jquery' ), pluginclass()->version, $in_footer = false );
 	}
 
 
@@ -43,9 +43,9 @@ class PluginClass_View_Settings {
 	 */
 	public static function show_admin() {
 		// Get stash items.
-		$stash = array( 'settings' => PluginClass()->settings );
+		$stash = array( 'settings' => pluginclass()->settings );
 
-		PluginClass()->render_template( 'plugin-settings', $stash );
+		pluginclass()->render_template( 'plugin-settings', $stash );
 	}
 
 }

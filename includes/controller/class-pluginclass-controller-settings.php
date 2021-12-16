@@ -34,7 +34,7 @@ class PluginClass_Controller_Settings {
 	 * Creates the settings submenu item
 	 */
 	public function add_options_page() {
-		$env = PluginClass()->environment;
+		$env = pluginclass()->environment;
 
 		$plugin_data = (object) get_plugin_data( $env->plugin_file );
 
@@ -64,7 +64,7 @@ class PluginClass_Controller_Settings {
 	 * @return array
 	 */
 	public function add_plugin_link( $plugin_actions, $plugin_file ) {
-		if ( PluginClass()->plugin_basename === $plugin_file ) {
+		if ( pluginclass()->plugin_basename === $plugin_file ) {
 																	/* translators: %s is the link to the plugin settings screen */
 			$plugin_actions['PluginClass_settings'] = sprintf( __( '<a href="%s">Settings</a>', 'plugin-slug' ), esc_url( admin_url( 'options-general.php?page=PluginClass' ) ) );
 		}

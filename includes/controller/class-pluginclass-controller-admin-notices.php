@@ -217,7 +217,7 @@ class PluginClass_Controller_Admin_Notices {
 	 */
 	public function add_dismissible_js() {
 		if ( $this->has_dismissible ) {
-			wp_enqueue_script( 'plugin-slug_admin_dismissible_notice', PluginClass()->environment->js_url . 'dismissible_notices.js', array( 'jquery' ), PluginClass()->version, $in_footer = false );
+			wp_enqueue_script( 'plugin-slug_admin_dismissible_notice', pluginclass()->environment->js_url . 'dismissible_notices.js', array( 'jquery' ), pluginclass()->version, $in_footer = false );
 		}
 	}
 

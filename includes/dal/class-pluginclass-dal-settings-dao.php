@@ -38,7 +38,7 @@ class PluginClass_DAL_Settings_Dao {
 	 */
 	public function load() {
 		if ( ! isset( $this->cache[ $this->settings_name ] ) ) {
-			PluginClass()->load_lib( 'model/settings' );
+			pluginclass()->load_lib( 'model/settings' );
 
 			$db_params = get_option( $this->settings_name, array() );
 
@@ -56,7 +56,7 @@ class PluginClass_DAL_Settings_Dao {
 	 * @return string
 	 */
 	public static function validate_settings( $_post ) {
-		$settings = PluginClass()->load_lib( 'model/settings' );
+		$settings = pluginclass()->load_lib( 'model/settings' );
 
 		foreach ( $_post as $key => $value ) {
 			$value = $settings->validate( $key, $value );
