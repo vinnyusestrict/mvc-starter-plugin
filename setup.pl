@@ -22,7 +22,7 @@ GetOptions(
 
 &help() unless $params{plugin_long_name} and $params{plugin_desc} and $params{plugin_class};
 
-
+my $year = ((localtime)[5])+1900;
 my %tmpl = (
     '<PLUGIN_NAME>' => $params{plugin_long_name},
     '<PLUGIN_DESC>' => $params{plugin_desc},
@@ -30,6 +30,7 @@ my %tmpl = (
     'PluginClass'   => $params{plugin_class}, # Can't use <PluginClass> because the IDE craps out with it.
     'pluginclass'   => lc $params{plugin_class},
     'PLUGINCLASS'   => uc $params{plugin_class},
+    '<YEAR>'        => $year,
 );
 
 
