@@ -327,13 +327,6 @@ if ( ! class_exists( 'PluginClass' ) ) :
 
 	}
 
-	/**
-	 * Kick off the plugin and provides an easy way to get the object.
-	 */
-	function pluginclass() {
-		return PluginClass::instance();
-	}
-	pluginclass();
 endif; // End if class_exists.
 
 /**

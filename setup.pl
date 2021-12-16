@@ -55,12 +55,13 @@ for my $key (keys %tmpl) {
 $new_file->spew( $content );
 
 # Update the class files
-my $pluginclass = lc( $params{plugin_class} );
+my $dashes = $tmpl{pluginclass};
+$dashes =~ s/_/-/g;
 for my $filename (`find $curr_dir -name "class-pluginclass*.php"`)
 {
     chomp($filename);
     my $to_file = $filename;
-    $to_file =~ s/class-pluginclass/class-$pluginclass/;
+    $to_file =~ s/class-pluginclass/class-$dashes/;
     rename( $filename, $to_file );
     
     my $file = file($to_file);

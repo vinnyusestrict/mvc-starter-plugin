@@ -37,6 +37,14 @@ define( 'PLUGINCLASS_FILE', __FILE__ );
 require_once dirname( __FILE__ ) . '/includes/class-pluginclass.php';
 
 /**
+ * Kick off the plugin and provides an easy way to get the object.
+ */
+function pluginclass() {
+    return PluginClass::instance();
+}
+pluginclass();
+
+/**
  * End of file plugin-slug.php
  * Location: plugin-slug/plugin-slug.php
  */
