@@ -78,7 +78,7 @@ class PluginClass_Controller_Admin_Notices {
 	 *
 	 * @param string  $message           The message to be displayed in the notice.
 	 * @param string  $type              The type of error: success, error, warning, info.
-	 * @param boolean $is_dismissible   Whether to add the is-dismissible class to the notice.
+	 * @param boolean $is_dismissible    Whether to add the is-dismissible class to the notice.
 	 * @param string  $screen_id         Limits rendering only to the given screen_id.
 	 * @param string  $scope             Whether this is a user or global message (for dismissals).
 	 *                                   Possible values are 'user' and 'global'. Defaults to 'global'.
