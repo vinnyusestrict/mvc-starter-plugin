@@ -143,7 +143,7 @@ if ( ! class_exists( 'PluginClass' ) ) :
 		 * Load i18n
 		 */
 		public function load_textdomain() {
-			load_plugin_textdomain( 'plugin-slug', false, dirname( untrailingslashit( plugin_basename( PLUGINCLASS_FILE ) ) ) . '/lang' );
+			load_plugin_textdomain( 'plugin-slug', false, dirname( untrailingslashit( plugin_basename( PLUGINCLASS_FILE ) ) ) . '/languages' );
 		}
 
 
