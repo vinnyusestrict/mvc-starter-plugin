@@ -40,7 +40,7 @@ foreach my $key ( keys %tmpl )
     next unless defined $tmpl{$key} and $tmpl{$key};
     
 #    print qq{find $curr_dir -name "*.php" -o -name "readme.txt" | xargs perl -pi -e 's/$key/$tmpl{$key}/g'};
-    `find $curr_dir -name "*.php" -o -name "readme.txt" | xargs perl -pi -e 's/$key/$tmpl{$key}/g'`;
+    `find $curr_dir -name "*.php" -o -name "readme.txt" -o -name ".phpcs.xml.dist" | xargs perl -pi -e 's/$key/$tmpl{$key}/g'`;
 }
 
 # Rename the base plugin file
